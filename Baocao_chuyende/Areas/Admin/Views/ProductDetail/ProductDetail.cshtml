@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Baocao_chuyende.Models.ProductDetail>
+
+@{
+    ViewBag.Title = "ProductDetail";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Sản phẩm /</span> Chi tiết sản phẩm</h4>
+    <!-- Basic Bootstrap Table -->
+    <div class="card">
+        <h5 class="card-header">Danh sách chi tiết sản phẩm</h5>
+        <div class="table-responsive text-nowrap">
+            <table class="table">                                                                                                                                                                                                               
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Color.nameColor)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Product.nameProduct)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Size.nameSize)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.image)
+                        </th>
+                        <th>
+                            Chức năng
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Color.nameColor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Product.nameProduct)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Size.nameSize)
+                            </td>
+                            <td>
+                                <img src="@Url.Content("~/UpLoad/Product/" + item.image)" alt="Image" style="width: 100px;"/>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="@Url.Action("Edit", "ProductDetail", new { id = item.id })"><i class="bx bx-edit-alt me-1"></i> Chỉnh sửa</a>
+                                        <a class="dropdown-item" href="@Url.Action("Delete", "ProductDetail", new { id = item.id })"><i class="bx bx-trash me-1"></i> Xóa</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--/ Basic Bootstrap Table -->
+    <div class="buy-now">
+        <a href="@Url.Action("Create", "ProductDetail")" class="btn btn-danger btn-buy-now">Thêm mới</a>
+    </div>
+</div>

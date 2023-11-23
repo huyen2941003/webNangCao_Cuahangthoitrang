@@ -1,0 +1,49 @@
+﻿@model Baocao_chuyende.Models.Customer
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/LayoutLR.cshtml";
+}
+
+@using (Html.BeginForm("Register", "Register", FormMethod.Post, new { onsubmit = "return validateForm();" }))
+{
+    <section class="register" id="register">
+        <div class="form-register">
+            <h1>Đăng ký tài khoản</h1>
+            <div class="social-register">
+                <a href="" class="social"><i class="fab fa-facebook-f"></i></a>
+                <a href="" class "social"><i class="fab fa-google-plus-g"></i></a>
+                <a href="" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <span>Nhập thông tin của bạn</span>
+            <div class="infield">
+                <p>Nhập tên người dùng: </p>
+                @Html.TextBoxFor(model => model.nameCustomer, new { placeholder = "Tên người dùng", id = "name" })
+            </div>
+            <div class="infield">
+                <p>Nhập email: </p>
+                @Html.TextBoxFor(model => model.email, new { placeholder = "gmail.com", id = "email" })
+            </div>
+            <div class="infield">
+                <p>Nhập địa chỉ: </p>
+                @Html.TextBoxFor(model => model.address, new { placeholder = "Địa chỉ", id = "address" })
+            </div>
+            <div class="infield">
+                <p>Nhập số điện thoại: </p>
+                @Html.TextBoxFor(model => model.phone, new { placeholder = "Số điện thoại", id = "telephone" })
+            </div>
+            <div class="infield">
+                <p>Nhập tên tài khoản: </p>
+                @Html.TextBoxFor(model => model.username, new { placeholder = "Tên tài khoản", id = "username" })
+            </div>
+            <div class="infield">
+                <p>Nhập mật khẩu: </p>
+                @Html.PasswordFor(model => model.password, new { placeholder = "Mật khẩu", id = "password" })
+            </div>
+            <div class="infield">
+                <p>Nhập lại mật khẩu: </p>
+                @Html.Password("retype", null, new { placeholder = "Nhập lại mật khẩu", id = "retype" })
+            </div>
+            <button id="register" type="submit" name="submit">Đăng ký</button>
+        </div>
+    </section>
+}

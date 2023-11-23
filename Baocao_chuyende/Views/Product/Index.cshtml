@@ -1,0 +1,109 @@
+﻿@model Baocao_chuyende.Controllers.ProductController.ProductViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/LayoutHF.cshtml";
+}
+
+@section HeaderContent {
+    <li class="list-menu">
+        <a href="#">Sản Phẩm</a>
+        <div class="list-menu-hover">
+            <ul>
+                <h4>Brands</h4>
+                @foreach (var brand in Model.Brands)
+                {
+                    <li>
+                        @Html.ActionLink(brand.nameBrands, "SearchByBrand", "Product", new { brandName = brand.nameBrands }, null)
+                    </li>
+                }
+            </ul>
+            <ul>
+                <h4>Danh mục</h4>
+                @foreach (var category in Model.Categories)
+                {
+                    <li>
+                        @Html.ActionLink(category.nameCategory, "SearchByCategory", "Product", new { categoryName = category.nameCategory }, null)
+                    </li>
+                }
+            </ul>
+            @foreach (var category in Model.Categories)
+            {
+                <ul>
+                    <h4>@category.nameCategory</h4>
+                    @foreach (var typeproduct in Model.TypeProducts.Where(tp => tp.idCategory == category.id))
+                    {
+                        <li>
+                            @Html.ActionLink(typeproduct.nameType, "SearchByCategoryAndType", "Product", new { categoryId = category.id, typeProductId = typeproduct.id }, null)
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </li>
+    <li class="list-menu">
+        <a href="#">Brands</a>
+        <div class="list-menu-hover">
+            <ul>
+                <h4>Brands</h4>
+                @foreach (var brand in Model.Brands)
+                {
+                    <li>
+                        @Html.ActionLink(brand.nameBrands, "SearchByBrand", "Product", new { brandName = brand.nameBrands }, null)
+                    </li>
+                }
+            </ul>
+            <ul>
+                <h4>Danh mục</h4>
+                @foreach (var category in Model.Categories)
+                {
+                    <li>
+                        @Html.ActionLink(category.nameCategory, "SearchByCategory", "Product", new { categoryName = category.nameCategory }, null)
+                    </li>
+                }
+            </ul>
+            @foreach (var category in Model.Categories)
+            {
+                <ul>
+                    <h4>@category.nameCategory</h4>
+                    @foreach (var typeproduct in Model.TypeProducts.Where(tp => tp.idCategory == category.id))
+                    {
+                        <li>
+                            @Html.ActionLink(typeproduct.nameType, "SearchByCategoryAndType", "Product", new { categoryId = category.id, typeProductId = typeproduct.id }, null)
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </li>
+}
+<main>
+    <section class="items-home product-hot">
+        <h2>Sản phẩm</h2>
+        <hr class="hr-below-heading">
+        <div class="product-hot-list">
+            @foreach (var product in Model.Products)
+            {
+                <div class="list-items product-hot-items">
+                    @foreach (var productdetails in Model.ProductDetails.Where(pd => pd.idProduct == product.id).OrderBy(x => Guid.NewGuid()).Take(1))
+                    {
+                        <div class="image-list">
+                            <img src="~/UpLoad/Product/@productdetails.image" alt="" data-hover="~/UpLoad/Product/@productdetails.image" class="image">
+                            <button class="size-display">
+                                Size:
+                                @foreach (var size in Model.Sizes.Where(s => Model.ProductDetails.Any(pd => pd.idProduct == product.id && pd.idSize == s.id)))
+                                {
+                                    <label>@size.nameSize</label>
+                                }
+                            </button>
+                            <p class="sale-off">@product.saleoff%</p>
+                        </div>
+                        <div class="information-product-hot">
+                            <a href="@Url.Action("DetailsProduct", "Product", new { id = product.id})"><h3>@product.nameProduct</h3></a>
+                            <p>Giá: @product.price₫  <s>@product.cost₫</s></p>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </section>
+</main>

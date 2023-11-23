@@ -1,0 +1,128 @@
+﻿@model Baocao_chuyende.Controllers.ContactUsController.ContactUsViewModel
+
+@{
+    ViewBag.Title = "ContactUs";
+    Layout = "~/Views/Shared/LayoutHF.cshtml";
+}
+
+@section HeaderContent {
+    <li class="list-menu">
+        <a href="#">Sản Phẩm</a>
+        <div class="list-menu-hover">
+            <ul>
+                <h4>Brands</h4>
+                @foreach (var brand in Model.Brands)
+                {
+                    <li>
+                        @Html.ActionLink(brand.nameBrands, "SearchByBrand", "Product", new { brandName = brand.nameBrands }, null)
+                    </li>
+                }
+            </ul>
+            <ul>
+                <h4>Danh mục</h4>
+                @foreach (var category in Model.Categories)
+                {
+                    <li>
+                        @Html.ActionLink(category.nameCategory, "SearchByCategory", "Product", new { categoryName = category.nameCategory }, null)
+                    </li>
+                }
+            </ul>
+            @foreach (var category in Model.Categories)
+            {
+                <ul>
+                    <h4>@category.nameCategory</h4>
+                    @foreach (var typeproduct in Model.TypeProducts.Where(tp => tp.idCategory == category.id))
+                    {
+                        <li>
+                            @Html.ActionLink(typeproduct.nameType, "SearchByCategoryAndType", "Product", new { categoryId = category.id, typeProductId = typeproduct.id }, null)
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </li>
+    <li class="list-menu">
+        <a href="#">Brands</a>
+        <div class="list-menu-hover">
+            <ul>
+                <h4>Brands</h4>
+                @foreach (var brand in Model.Brands)
+                {
+                    <li>
+                        @Html.ActionLink(brand.nameBrands, "SearchByBrand", "Product", new { brandName = brand.nameBrands }, null)
+                    </li>
+                }
+            </ul>
+            <ul>
+                <h4>Danh mục</h4>
+                @foreach (var category in Model.Categories)
+                {
+                    <li>
+                        @Html.ActionLink(category.nameCategory, "SearchByCategory", "Product", new { categoryName = category.nameCategory }, null)
+                    </li>
+                }
+            </ul>
+            @foreach (var category in Model.Categories)
+            {
+                <ul>
+                    <h4>@category.nameCategory</h4>
+                    @foreach (var typeproduct in Model.TypeProducts.Where(tp => tp.idCategory == category.id))
+                    {
+                        <li>
+                            @Html.ActionLink(typeproduct.nameType, "SearchByCategoryAndType", "Product", new { categoryId = category.id, typeProductId = typeproduct.id }, null)
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </li>
+}
+<main>
+    <div id="map-shop" class="grid-container-map">
+        <div id="map"></div>
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <section class="contactus-page">
+            <div class="contactus-page-list left-contactus">
+                @foreach (var information in Model.InformationShops)
+                {
+                    <div class="contactus-page-items">
+                        <h3>Liên hệ</h3>
+                        <p>Địa chỉ: <span>@information.address</span></p>
+                        <p>ZALO: <span>@information.zalo</span></p>
+                        <p>HOTLINE: <span>@information.hotline</span></p>
+                        <p>SỈ: <a href="@information.wholesale" target="_blank"><span>https://zalo.me/g/enadvl795</span></a></p>
+                    </div>
+                }
+            </div>
+            <div class="contactus-page-list right-contactus">
+                <h3>Liên hệ với chúng tôi</h3>
+                <form action="contactus-form">
+                    <div class="form-group">
+                        @Html.EditorFor(model => model.ContactUs.nameCustomer, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên của bạn..." } })
+                        @Html.ValidationMessageFor(model => model.ContactUs.nameCustomer, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.EditorFor(model => model.ContactUs.email, new { htmlAttributes = new { @class = "form-control", placeholder = "gmail.com" } })
+                        @Html.ValidationMessageFor(model => model.ContactUs.email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.EditorFor(model => model.ContactUs.phone, new { htmlAttributes = new { @class = "form-control", placeholder = "Số điện thoại của bạn" } })
+                        @Html.ValidationMessageFor(model => model.ContactUs.phone, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextAreaFor(model => model.ContactUs.textContactUs, new { @class = "form-control form-control-textarea", placeholder = "Chúng tôi có thể giúp gì cho bạn...?" })
+                        @Html.ValidationMessageFor(model => model.ContactUs.textContactUs, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" id="submit-contact" class="submit-contactus" value="Gửi cho chúng tôi" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    }
+</main>

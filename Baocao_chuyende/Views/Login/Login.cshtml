@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/LayoutLR.cshtml";
+}
+
+@using (Html.BeginForm("Login", "Login", FormMethod.Post))
+{
+    <section class="login" id="login">
+        <div class="form-login">
+            <h1>Đăng nhập</h1>
+            <div class="social-login">
+                <a href="" class="social"><i class="fab fa-facebook-f"></i></a>
+                <a href="" class="social"><i class="fab fa-google-plus-g"></i></a>
+                <a href="" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <span>Nhập tài khoản của bạn</span>
+            <div class="infield">
+                <p>Nhập tên tài khoản: </p>
+                @Html.TextBox("username", null, new { placeholder = "gmail.com", id = "username" })
+            </div>
+            <div class="infield">
+                <p>Nhập mật khẩu: </p>
+                @Html.Password("password", null, new { placeholder = "Mật khẩu", id = "password" })
+            </div>
+            <a href="#" class="forgot">Quên mật khẩu?</a> <br>
+
+            <button type="submit" name="submit" id="login">Đăng nhập</button>
+        </div>
+        <div style="color: red !important;">
+            @Html.ValidationMessage("")
+        </div>
+    </section>
+
+}

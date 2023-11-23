@@ -1,0 +1,378 @@
+*{
+    padding: 0;
+    margin: 0 auto;
+}
+section{
+    margin: 60px 0;
+}
+ul{
+    list-style: none;
+}
+li{
+    display: inline-block;
+}
+a{
+    text-decoration: none;
+}
+
+header{
+    padding: 15px;
+    color: #ffffff;
+    font-size: 20px;
+    background-color: #182853;
+}
+
+.menu-header{
+    display: inline-block;
+    position: relative;
+}
+.image-header img{
+    width: 60px;
+    border-radius: 50%;
+    margin-bottom: -20px;
+    margin-left: 50px;
+}
+.menu-header a{
+    color: #cfd5e2;
+}
+
+.list-menu{
+    padding: 10px 20px;
+}
+.list-menu a:hover{
+    color: #ffffff;
+}
+
+.icon-header{
+    margin-left: 50px;
+    position: relative;
+    left: 77%;
+}
+
+.list-menu .text-search{
+    font-size: 15px;
+    padding: 7px;
+    width: 300px;
+    border-radius: 5px;
+}
+
+.list-menu-hover {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    width: 600px;
+    background-color: RGB(24 40 83);
+    padding: 30px;
+    top: 100%;
+    left: 130px;
+    border-radius: 5px;
+    text-align: left;
+    z-index: 999999;
+    transition: opacity 1s;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.list-menu-hover ul{
+    display: block;
+    margin: 10px 20px;
+}
+.list-menu-hover li{
+    display: block;
+    margin: 10px 0;
+    color: #cfd5e2;
+    font-size: 19px;
+    text-decoration: 1px underline solid #cfd5e2;
+}
+.list-menu-hover li:hover,
+.user-hover li:hover{
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.list-menu:hover .list-menu-hover,
+.list-menu:hover .user-hover{
+    opacity: 1;
+    visibility: visible;
+}
+.user-hover {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    background-color: #182853;
+    padding: 30px 20px;
+    top: 100%;
+    width: 150px;
+    left: 0;
+    border-radius: 5px;
+    z-index: 999999;
+    transition: opacity 1s;
+}
+.user-hover li {
+    margin: 7px 0;
+    color: #cfd5e2;
+    font-size: 19px;
+    text-decoration: 1px underline solid #cfd5e2;
+}
+
+
+
+.login {
+    width: 450px;
+    height: 500px;
+    margin: 0 auto;
+    margin-top: 90px;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-login {
+    transition: all 0.6s ease-in-out;
+    text-align:  center;
+}
+
+.login h1{
+    color: #182853;
+    font-size: 40px;
+}
+
+.login .social-login a{
+    border: 1px solid rgb(40,40,40);
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+}
+
+.infield p{
+    text-align: left;
+    font-size: 17px;
+    color: #182853;
+    margin-bottom: 5px;
+}
+.login .social-login a:hover{
+    background-color: #596da2;
+}
+.login .social-login .social i {
+    color: #182853;
+}
+
+.login .forgot {
+    color: #182853;
+}
+.login span{
+    color: #182853;
+    font-size: 16px;
+}
+
+.login .infield{
+    position: relative;
+    margin: 20px 0px;
+    width: 100%;
+}
+.login input{
+    border: 1px solid rgb(40,40,40);
+    border-radius: 5px;
+    width: 100%;
+    padding: 12px 10px;
+    background-color: #ededed;
+    border: none;
+    outline: none;
+}
+
+.login label{
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    width: 0%;
+    height: 2px;
+    background:  #182853;
+    transition: 0.3s;
+}
+
+.login input:focus ~ label{
+    width: 100%;
+    margin: 0px 10px;
+}
+
+#login a{
+    color:#182853;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 15px 0px;
+}
+
+.login button{
+    border-radius: 20px;
+    border: 1px solid var(--grad-clr2);
+    background: #182853;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 15px;
+}
+
+.login .form-login button:hover{
+    background: #3d528e;
+    color: #fff;
+}
+
+/* css register */
+.register {
+    place-content: center;
+    position: relative;
+    width: 500px;
+    height: 750px;
+    border-radius: 13px;
+    overflow: hidden;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.form-register {
+    padding: 0px 40px;
+    transition: all 0.6s ease-in-out;
+    text-align:  center;
+}
+
+.register h1{
+    color: #182853;
+    font-size: 30px;
+}
+
+.register .social-register a{
+    border: 1px solid rgb(40,40,40);
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+}
+
+.register .infield p{
+    text-align: left;
+    font-size: 15px;
+    color: #182853;
+}
+.register .social-register a:hover{
+    background-color: #596da2;
+}
+.register .social-register .social i {
+    color: #182853;
+}
+
+.register .forgot {
+    color: #182853;
+}
+.register span{
+    color: #182853;
+    font-size: 16px;
+}
+
+.register .infield{
+    position: relative;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.register input{
+    border: 1px solid rgb(40,40,40);
+    border-radius: 5px;
+    width: 100%;
+    padding: 12px 30px;
+    background-color: #ededed;
+    border: none;
+    outline: none;
+}
+
+.register label{
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    width: 0%;
+    height: 2px;
+    background:  #182853;
+    transition: 0.3s;
+}
+
+.register input:focus ~ label{
+    width: 100%;
+    margin: 0px 20px;
+}
+
+#register a{
+    color:#182853;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 15px 0px;
+}
+
+.register a.forgot{
+    color: #182853;
+    padding-bottom: 3px;
+}
+
+.register button{
+    border-radius: 20px;
+    border: 1px solid var(--grad-clr2);
+    background: #182853;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 20px 0px;
+}
+
+.register .form-register button:hover{
+    background: #3d528e;
+    color: #fff;
+}
+
+/* css footer */
+.footer .box-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(2.5rem, 1fr));
+}
+
+.footer .box-container .box h3{
+    padding: .5rem 0;
+    font-size: 20px;
+    color: #fff;
+}
+
+.footer .box-container .box a{
+    display: block;
+    padding: 10px 0px 10px 0px;
+    font-size: 17px;
+    color:  #cfd5e2;
+}
+
+.footer .box-container .box a:hover{
+    color: rgb(255, 255, 255);
+    text-decoration: underline;
+}
+
+.footer{
+    background-color: #182853;
+    padding: 30px 30px 10px 20px;
+}
+
+.footer .box-container .box{
+    padding-left: 50px;
+    margin-bottom: 40px;
+}
+.footer .copyright{
+    font-size: 15px;
+    color: #fff;
+    text-align: center;
+}

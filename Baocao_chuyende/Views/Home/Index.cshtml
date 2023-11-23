@@ -1,0 +1,221 @@
+﻿@model Baocao_chuyende.Controllers.HomeController.IndexViewModel
+@using Baocao_chuyende.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/LayoutHF.cshtml";
+}
+@{
+    var randomBlog = Model.Blogs;
+    if (randomBlog != null && randomBlog.Any())
+    {
+        var random = new Random();
+        randomBlog = randomBlog.OrderBy(x => random.Next()).Take(3).ToList();
+    }
+    else
+    {
+        randomBlog = new List<Blog>();
+    }
+}
+@{
+    var allProducts = Model.Products.ToList();
+    var randomPr = new Random();
+    var randomProducts = allProducts.OrderBy(x => randomPr.Next()).Take(3).ToList();
+}
+@section HeaderContent {
+    <li class="list-menu">
+        <a href="#">Sản Phẩm</a>
+        <div class="list-menu-hover">
+            <ul>
+                <h4>Brands</h4>
+                @foreach (var brand in Model.Brands)
+                {
+                    <li>
+                        @Html.ActionLink(brand.nameBrands, "SearchByBrand", "Product", new { brandName = brand.nameBrands }, null)
+                    </li>
+                }
+            </ul>
+            <ul>
+                <h4>Danh mục</h4>
+                @foreach (var category in Model.Categories)
+                {
+                    <li>
+                        @Html.ActionLink(category.nameCategory, "SearchByCategory", "Product", new { categoryName = category.nameCategory }, null)
+                    </li>
+                }
+            </ul>
+            @foreach (var category in Model.Categories)
+            {
+                <ul>
+                    <h4>@category.nameCategory</h4>
+                    @foreach (var typeproduct in Model.TypeProducts.Where(tp => tp.idCategory == category.id))
+                    {
+                        <li>
+                            @Html.ActionLink(typeproduct.nameType, "SearchByCategoryAndType", "Product", new { categoryId = category.id, typeProductId = typeproduct.id }, null)
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </li>
+    <li class="list-menu">
+        <a href="#">Brands</a>
+        <div class="list-menu-hover">
+            <ul>
+                <h4>Brands</h4>
+                @foreach (var brand in Model.Brands)
+                {
+                    <li>
+                        @Html.ActionLink(brand.nameBrands, "SearchByBrand", "Product", new { brandName = brand.nameBrands }, null)
+                    </li>
+                }
+            </ul>
+            <ul>
+                <h4>Danh mục</h4>
+                @foreach (var category in Model.Categories)
+                {
+                    <li>
+                        @Html.ActionLink(category.nameCategory, "SearchByCategory", "Product", new { categoryName = category.nameCategory }, null)
+                    </li>
+                }
+            </ul>
+            @foreach (var category in Model.Categories)
+            {
+                <ul>
+                    <h4>@category.nameCategory</h4>
+                    @foreach (var typeproduct in Model.TypeProducts.Where(tp => tp.idCategory == category.id))
+                    {
+                        <li>
+                            @Html.ActionLink(typeproduct.nameType, "SearchByCategoryAndType", "Product", new { categoryId = category.id, typeProductId = typeproduct.id }, null)
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </li>
+}
+<main>
+    <div class="banner">
+        <div class="image-banner">
+            <img src="https://zunezx.com/upload/image/data/banner/BD-TOURWEB-01-a26.jpg" alt="">
+        </div>
+        <div class="information-banner">
+            <div class="left-banner">
+                <img src="https://zunezx.com/upload/image/data/tin-tuc/Showroom/Grand-opening-/GRAND-OPENING-INSTA-cc3.jpg" alt="">
+            </div>
+            <div class="right-banner">
+                <h2>CHÀO MỪNG BẠN ĐẾN VỚI THẾ GIỚI CỦA ANIESTORE</h2>
+                <button>Mua ngay</button>
+            </div>
+        </div>
+    </div>
+    <section class="items-home category-index">
+        <h2>Danh mục</h2>
+        <hr class="hr-below-heading">
+        <div class="category-list-index">
+            @foreach (var category in Model.Categories)
+            {
+                <div class="list-items category-items-index">
+                    @foreach (var product in Model.Products.Where(p => p.idCategory == category.id).OrderBy(x => Guid.NewGuid()).Take(1))
+                    {
+                        foreach (var productdetails in Model.ProductDetails.Where(pd => pd.idProduct == product.id).OrderBy(x => Guid.NewGuid()).Take(1))
+                        {
+                            <div class="image-list">
+                                <img src="~/UpLoad/Product/@productdetails.image" alt="">
+                            </div>
+                        }
+                        <div class="information-category-index">
+                            <a href="@Url.Action("SearchByCategory", "Product", new { categoryName = category.nameCategory })">
+                                <h3 class="your-css-class">@category.nameCategory</h3>
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </section>
+    <section class="items-home product-hot">
+        <h2>Sản phẩm bán chạy nhất</h2>
+        <hr class="hr-below-heading">
+        <div class="product-hot-list">
+            @foreach (var product in randomProducts)
+            {
+                <div class="list-items product-hot-items">
+                    @foreach (var productdetails in Model.ProductDetails.Where(pd => pd.idProduct == product.id).OrderBy(x => Guid.NewGuid()).Take(1))
+                    {
+                        <div class="image-list">
+                            <img src="~/UpLoad/Product/@productdetails.image" alt="" data-hover="~/UpLoad/Product/@productdetails.image" class="image">
+                            <button class="size-display">
+                                Size:
+                                @foreach (var size in Model.Sizes.Where(s => Model.ProductDetails.Any(pd => pd.idProduct == product.id && pd.idSize == s.id)))
+                                {
+                                    <label>@size.nameSize</label>
+                                }
+                            </button>
+                            @if (product.saleoff > 0)
+                            {
+                                <p class="sale-off">@product.saleoff%</p>
+                            }
+                        </div>
+                        <div class="information-product-hot">
+                            <a href="@Url.Action("DetailsProduct", "Product", new { id = product.id})"><h3>@product.nameProduct</h3></a>
+                            <p>Giá: @product.price₫  <s>@product.cost₫</s></p>
+                        </div>
+                    }
+                </div>
+            }
+            <div class="button-see-more">
+                <a href="@Url.Action("Index", "Product")"><button class="product-hot-button">Xem thêm</button></a>
+            </div>
+        </div>
+    </section>
+    <section class="items-home blog-index">
+        <h2>Blog</h2>
+        <hr class="hr-below-heading">
+        <div class="blog-list-index">
+            @foreach (var blog in randomBlog)
+            {
+                <div class="list-items blog-items-index">
+                    <div class="image-list">
+                        <img src="~/UpLoad/Blog/@blog.imageTitle" alt="">
+                    </div>
+                    <div class="information-blog-index">
+                        <a href="@Url.Action("DetailsBlog", "Blog", new { id = blog.id})"><h3>@blog.titleBlog</h3></a>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+    <section class="items-home video-index">
+        <h2>Video</h2>
+        <hr class="hr-below-heading">
+        @foreach (var video in Model.VideoHomes)
+        {
+            <div class="list-items video-items">
+                <p>@video.text</p>
+            </div>
+            <div class="video-wrapper">
+                <iframe src="@video.urlVideo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+        }
+    </section>
+    <section class="items-home aboutus-index">
+        <h2>Về chúng tôi</h2>
+        <hr class="hr-below-heading">
+        @foreach (var aboutus in Model.AboutUs)
+        {
+            <div class="aboutus-list-index">
+                <div class="list-items aboutus-items-index">
+                    <div class="image-list">
+                        <img src="~/UpLoad/AboutUs/@aboutus.image" alt="">
+                    </div>
+                </div>
+                <div class="list-items aboutus-items-index">
+                    <div class="information-aboutus-index">
+                        <p>- @aboutus.text</p>
+                        <p><span>- @aboutus.contact</span></p>
+                    </div>
+                </div>
+            </div>
+        }
+    </section>
+</main>

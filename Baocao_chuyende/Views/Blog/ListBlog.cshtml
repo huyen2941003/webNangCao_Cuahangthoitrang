@@ -1,0 +1,97 @@
+﻿
+@model Baocao_chuyende.Controllers.BlogController.BlogViewModel
+
+@{
+    ViewBag.Title = "Blog";
+    Layout = "~/Views/Shared/LayoutHF.cshtml";
+}
+@section HeaderContent {
+    <li class="list-menu">
+        <a href="#">Sản Phẩm</a>
+        <div class="list-menu-hover">
+            <ul>
+                <h4>Brands</h4>
+                @foreach (var brand in Model.Brands)
+                {
+                    <li>
+                        @Html.ActionLink(brand.nameBrands, "SearchByBrand", "Product", new { brandName = brand.nameBrands }, null)
+                    </li>
+                }
+            </ul>
+            <ul>
+                <h4>Danh mục</h4>
+                @foreach (var category in Model.Categories)
+                {
+                    <li>
+                        @Html.ActionLink(category.nameCategory, "SearchByCategory", "Product", new { categoryName = category.nameCategory }, null)
+                    </li>
+                }
+            </ul>
+            @foreach (var category in Model.Categories)
+            {
+                <ul>
+                    <h4>@category.nameCategory</h4>
+                    @foreach (var typeproduct in Model.TypeProducts.Where(tp => tp.idCategory == category.id))
+                    {
+                        <li>
+                            @Html.ActionLink(typeproduct.nameType, "SearchByCategoryAndType", "Product", new { categoryId = category.id, typeProductId = typeproduct.id }, null)
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </li>
+    <li class="list-menu">
+        <a href="#">Brands</a>
+        <div class="list-menu-hover">
+            <ul>
+                <h4>Brands</h4>
+                @foreach (var brand in Model.Brands)
+                {
+                    <li>
+                        @Html.ActionLink(brand.nameBrands, "SearchByBrand", "Product", new { brandName = brand.nameBrands }, null)
+                    </li>
+                }
+            </ul>
+            <ul>
+                <h4>Danh mục</h4>
+                @foreach (var category in Model.Categories)
+                {
+                    <li>
+                        @Html.ActionLink(category.nameCategory, "SearchByCategory", "Product", new { categoryName = category.nameCategory }, null)
+                    </li>
+                }
+            </ul>
+            @foreach (var category in Model.Categories)
+            {
+                <ul>
+                    <h4>@category.nameCategory</h4>
+                    @foreach (var typeproduct in Model.TypeProducts.Where(tp => tp.idCategory == category.id))
+                    {
+                        <li>
+                            @Html.ActionLink(typeproduct.nameType, "SearchByCategoryAndType", "Product", new { categoryId = category.id, typeProductId = typeproduct.id }, null)
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </li>
+}
+
+<main>
+    <div class="blog-page">
+        <h3>Blog về Aniestore</h3>
+        @foreach (var blog in Model.Blogs)
+        {
+            <div class="blog-page-list">
+                <div class="image-blog-page">
+                    <img src="~/Upload/Blog/@blog.imageTitle" alt="">
+                </div>
+                <div class="information-blog-page">
+                    <a href="@Url.Action("DetailsBlog", "Blog", new { id = blog.id})"><p>@blog.titleBlog</p></a>
+                </div>
+                <hr>
+            </div>
+        }
+    </div>
+</main>

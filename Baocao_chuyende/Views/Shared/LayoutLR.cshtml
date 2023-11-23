@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/assest/login_register.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header">
+            <div class="menu-header login-header">
+                <ul>
+                    <li class="image-header">
+                        <a href="@Url.Action("Index", "Home")"><img src="https://img.freepik.com/premium-vector/fashion-store-logo-design-brown-color-white-background-vector-illustration_500223-967.jpg" alt=""></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="menu-header icon-header">
+                <ul>
+                    <li class="list-menu">
+                        <a href="#"><i class="fas fa-shopping-cart"></i></a>
+                    </li>
+                    <li class="list-menu">
+                        <a href=""><i class="fas fa-user"></i></a>
+                        <div class="user-hover">
+                            <ul>
+                                @if (Session["username"] != null)
+                                {
+                                    <li><a href="">Thông tin cá nhân</a></li>
+                                    <li><a href="@Url.Action("Logout", "Login")">Đăng xuất</a></li>
+                                }
+                                else
+                                {
+                                    <li><a href="@Url.Action("Login", "Login")">Đăng nhập</a></li>
+                                    <li><a href="@Url.Action("Register", "Register")">Đăng ký</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <main>
+        @RenderBody()
+    </main>
+    <footer class="footer">
+        <link rel="stylesheet" href="style.css">
+        <div class="box-container">
+            <div class="box">
+                <h3>Liên hệ</h3>
+                <a href=""><i class="fas fa-location-arrow"></i> 30/220, phường Cổ Nhuế 2, quận Bắc Từ Liêm, thành phố Hà Nội</a>
+                <a href=""><i class="fas fa-phone"></i> ZALO: 0332540272</a>
+                <a href=""><i class="fas fa-phone"></i> HOTLINE: 0963867931, 0332540272</a>
+                <a href=""><i class="fas fa-thumbtack"></i> SỈ: https://zalo.me/g/enadvl795</a>
+            </div>
+            <div class="box">
+                <div class="box-top">
+                    <h3>ANIESTORE</h3>
+                    <a href=""><i class="fas fa-bolt"></i> Flash Sales</a>
+                    <a href=""><i class="fas fa-truck"></i> Free Ship</a>
+                    <a href=""><i class="fas fa-dollar-sign"></i> Thanh toán</a>
+                    <a href=""><i class="fas fa-shopping-cart"></i> Đặt hàng</a>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-top">
+                    <h3> Thương hiệu</h3>
+                    <a href=""> Giới thiệu</a>
+                    <a href=""> Blog</a>
+                    <a href=""> Hệ thống cửa hàng</a>
+                    <a href=""> Tuyển dụng</a>
+                    <a href=""> Liên hệ</a>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-top">
+                    <h3>Theo dõi trên</h3>
+                    <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
+                    <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="https://twitter.com/?lang=vi" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                    <a href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p><i class="fas fa-copyright"></i> 2023 Thời trang Aniestore</p>
+        </div>
+    </footer>
+</body>
+</html>

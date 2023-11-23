@@ -1,0 +1,222 @@
+﻿@model Baocao_chuyende.Controllers.ProductController.ProductViewModel
+
+@{
+    ViewBag.Title = "DetailsProduct";
+    Layout = "~/Views/Shared/LayoutHF.cshtml";
+}
+
+@section HeaderContent {
+    <li class="list-menu">
+        <a href="#">Sản Phẩm</a>
+        <div class="list-menu-hover">
+            <ul>
+                <h4>Brands</h4>
+                @foreach (var brand in Model.Brands)
+                {
+                    <li>
+                        @Html.ActionLink(brand.nameBrands, "SearchByBrand", "Product", new { brandName = brand.nameBrands }, null)
+                    </li>
+                }
+            </ul>
+            <ul>
+                <h4>Danh mục</h4>
+                @foreach (var category in Model.Categories)
+                {
+                    <li>
+                        @Html.ActionLink(category.nameCategory, "SearchByCategory", "Product", new { categoryName = category.nameCategory }, null)
+                    </li>
+                }
+            </ul>
+            @foreach (var category in Model.Categories)
+            {
+                <ul>
+                    <h4>@category.nameCategory</h4>
+                    @foreach (var typeproduct in Model.TypeProducts.Where(tp => tp.idCategory == category.id))
+                    {
+                        <li>
+                            @Html.ActionLink(typeproduct.nameType, "SearchByCategoryAndType", "Product", new { categoryId = category.id, typeProductId = typeproduct.id }, null)
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </li>
+    <li class="list-menu">
+        <a href="#">Brands</a>
+        <div class="list-menu-hover">
+            <ul>
+                <h4>Brands</h4>
+                @foreach (var brand in Model.Brands)
+                {
+                    <li>
+                        @Html.ActionLink(brand.nameBrands, "SearchByBrand", "Product", new { brandName = brand.nameBrands }, null)
+                    </li>
+                }
+            </ul>
+            <ul>
+                <h4>Danh mục</h4>
+                @foreach (var category in Model.Categories)
+                {
+                    <li>
+                        @Html.ActionLink(category.nameCategory, "SearchByCategory", "Product", new { categoryName = category.nameCategory }, null)
+                    </li>
+                }
+            </ul>
+            @foreach (var category in Model.Categories)
+            {
+                <ul>
+                    <h4>@category.nameCategory</h4>
+                    @foreach (var typeproduct in Model.TypeProducts.Where(tp => tp.idCategory == category.id))
+                    {
+                        <li>
+                            @Html.ActionLink(typeproduct.nameType, "SearchByCategoryAndType", "Product", new { categoryId = category.id, typeProductId = typeproduct.id }, null)
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </li>
+}
+@{
+    var allProducts = Model.Products.ToList();
+    var randomPr = new Random();
+    var randomProducts = allProducts.OrderBy(x => randomPr.Next()).Take(3).ToList();
+}
+
+<main>
+    <section>
+        <div class="product-details">
+                <div class="image-product">
+                    @foreach (var productDetail in Model.ProductDetails.Take(1))
+                    {
+                        <div class="img-main">
+                            <img src="~/UpLoad/Product/@productDetail.image" alt="" />
+                            @if (Model.ProductDetail.saleoff > 0)
+                            {
+                                <p class="product-detail-sale">@Model.ProductDetail.saleoff%</p>
+                            }
+                        </div>
+                    }
+                    <div class="img-extra">
+                        @foreach (var productDetail in Model.ProductDetails.DistinctBy(pd => pd.image).Take(Model.ProductDetails.Count))
+                        {
+                            <img src="~/UpLoad/Product/@productDetail.image" alt="" />
+                        }
+                    </div>
+                </div>
+                <div class="info-product">
+                    <div class="name-product-details">
+                        <h1>@Model.ProductDetail.nameProduct</h1>
+                        @Html.HiddenFor(model => model.ProductDetail.id)
+                    </div>
+                    <div class="info-product-details">
+                        @if (Model.ProductDetail.inventory > 0)
+                        {
+                            <p>Tình trạng: Còn hàng</p>
+                        }
+                        else
+                        {
+                            <p>Tình trạng: Hết hàng</p>
+                        }
+                        @if (Model.ProductDetail.saleoff > 0)
+                        {
+                            <p id="price-details">Giá bán: @Model.ProductDetail.price VNĐ <s>@Model.ProductDetail.cost VNĐ</s></p>
+                        }
+                        else
+                        {
+                            <p id="price-details">Giá bán: @Model.ProductDetail.price VNĐ</p>
+                        }
+                        <div class="size-product">
+                            <span>Size:</span>
+                            @foreach (var size in Model.Sizes.Where(s => Model.ProductDetails.Any(pd => pd.idProduct == Model.ProductDetail.id && pd.idSize == s.id)))
+                            {
+                                <button onclick="changeColor(this, 'size')">@size.nameSize</button>
+                                @*@Html.HiddenFor(model => model.SelectedSizeId)*@
+                            }
+                        </div>
+                        <div class="color-product">
+                            <span>Màu sắc:</span>
+                            @foreach (var color in Model.Colors.Where(c => Model.ProductDetails.Any(pd => pd.idProduct == Model.ProductDetail.id && pd.idColor == c.id)))
+                            {
+                                <button onclick="changeColor(this,'color')">@color.nameColor</button>
+                                @*@Html.HiddenFor(model => model.SelectedColorId)*@
+                            }
+                        </div>
+                        <div class="amount-product">
+                            <span for="quantity">Số Lượng:</span>
+                            @if (Model.ProductDetail.inventory > 0)
+                            {
+                                <button id="decrement" onclick="decrementValue()">-</button>
+                                <input type="text" id="quantity" name="quantity" value="1" readonly max=@Model.ProductDetail.inventory/>
+                                <button id="increment" onclick="incrementValue()">+</button>
+                            }
+                            else
+                            {
+                                <button id="decrement">-</button>
+                                <input type="text" id="quantity" name="quantity" value="0" readonly max=@Model.ProductDetail.inventory/>
+                                <button id="increment">+</button>
+                            }
+                            <p>(Còn @Model.ProductDetail.inventory sản phẩm)</p>
+                        </div>
+                        <div class="addtocart-product-details">
+                            @if (Model.ProductDetail.inventory > 0)
+                            {
+                                <button>Mua ngay</button>
+                                <button id="click-me" type="submit"><a href="@Url.Action("AddToCart", "Cart", new { id = Model.ProductDetail.id})" style="color: white">Thêm vào giỏ hàng</a></button>
+                                
+                            }
+                            else
+                            {
+                                <button style="background-color: darkred">Mua ngay</button>
+                                <button id="click-me" style="background-color: darkred" type="submit">Thêm vào giỏ hàng</button>
+                            }
+                            <button class="size-chart">Size Chart</button>
+                        </div>
+                        <div class="information-product">
+                            <h2>Mô tả chi tiết:</h2>
+                            <p>@Model.ProductDetail.description</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <div class="show-size-chart">
+        <div class="chatcon">
+            <button class="close-size-chart1"></button>
+            <div><img src="~/UpLoad/Product/@Model.ProductDetail.sizechart" alt=""></div>
+            <button class="close-size-chart2"></button>
+        </div>
+    </div>
+    <hr class="hr-below-heading">
+    <section class="items-home product-hot">
+        <h2>Các sản phẩm khác</h2>
+        <div class="product-hot-list">
+            @foreach (var product in randomProducts)
+            {
+                <div class="list-items product-hot-items">
+                    @foreach (var productdetails in Model.ImageProduct.Where(pd => pd.idProduct == product.id).OrderBy(x => Guid.NewGuid()).Take(1))
+                    {
+                        <div class="image-list">
+                            <img src="~/UpLoad/Product/@productdetails.image" alt="" data-hover="~/UpLoad/Product/@productdetails.image" class="image">
+                            <button class="size-display">
+                                Size:
+                                @foreach (var size in Model.Sizes.Where(s => Model.ImageProduct.Any(pd => pd.idProduct == product.id && pd.idSize == s.id)))
+                                {
+                                    <label>@size.nameSize</label>
+                                }
+                            </button>
+                            @if (product.saleoff > 0)
+                            {
+                                <p class="sale-off">@product.saleoff%</p>
+                            }
+                        </div>
+                        <div class="information-product-hot">
+                            <a href="@Url.Action("DetailsProduct", "Product", new { id = product.id})"><h3>@product.nameProduct</h3></a>
+                            <p>Giá: @product.price₫  <s>@product.cost₫</s></p>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </section>
+</main>
