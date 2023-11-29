@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Baocao_chuyende.Models.ProductDetail>
+﻿@using PagedList;
+@using PagedList.Mvc
+@model IPagedList<Baocao_chuyende.Models.ProductDetail>
 
 @{
     ViewBag.Title = "ProductDetail";
@@ -11,23 +13,23 @@
     <div class="card">
         <h5 class="card-header">Danh sách chi tiết sản phẩm</h5>
         <div class="table-responsive text-nowrap">
-            <table class="table">                                                                                                                                                                                                               
+            <table class="table">
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.id)
+                            Mã
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Color.nameColor)
+                            Màu
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Product.nameProduct)
+                            Tên sản phẩm
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Size.nameSize)
+                            Size
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.image)
+                            Ảnh
                         </th>
                         <th>
                             Chức năng
@@ -51,7 +53,7 @@
                                 @Html.DisplayFor(modelItem => item.Size.nameSize)
                             </td>
                             <td>
-                                <img src="@Url.Content("~/UpLoad/Product/" + item.image)" alt="Image" style="width: 100px;"/>
+                                <img src="@Url.Content("~/UpLoad/Product/" + item.image)" alt="Image" style="width: 100px;" />
                             </td>
                             <td>
                                 <div class="dropdown">
@@ -70,6 +72,17 @@
             </table>
         </div>
     </div>
+    <div style="text-align: center; margin: 30px">
+        @Html.PagedListPager(Model, page => Url.Action("ProductDetail", new { page }), new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
+    </div>
+    <style>
+        .pagination a {
+            font-size: 20px;
+            margin: 10px;
+            padding: 10px 15px;
+            border-radius: 10px;
+        }
+    </style>
     <!--/ Basic Bootstrap Table -->
     <div class="buy-now">
         <a href="@Url.Action("Create", "ProductDetail")" class="btn btn-danger btn-buy-now">Thêm mới</a>

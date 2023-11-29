@@ -196,7 +196,7 @@
                         </ul>
                     </li>
                     <li class="menu-item">
-                        <a href="@Url.Action("Video", "Video")" class="menu-link">
+                        <a href="@Url.Action("VideoHome", "Video")" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
                             <div data-i18n="Tables">Video</div>
                         </a>
@@ -214,7 +214,7 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="@Url.Action("User", "Account")" class="menu-link">
+                        <a href="@Url.Action("Account", "Account")" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
                             <div data-i18n="Tables">Quản lý khách hàng</div>
                         </a>
@@ -364,5 +364,8 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="~/support/ckeditor/ckeditor.js"></script>
+    <script src="~/support/ckfinder/ckfinder.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -91,10 +91,6 @@
                     {
                         <div class="img-main">
                             <img src="~/UpLoad/Product/@productDetail.image" alt="" />
-                            @if (Model.ProductDetail.saleoff > 0)
-                            {
-                                <p class="product-detail-sale">@Model.ProductDetail.saleoff%</p>
-                            }
                         </div>
                     }
                     <div class="img-extra">
@@ -120,12 +116,15 @@
                         }
                         @if (Model.ProductDetail.saleoff > 0)
                         {
-                            <p id="price-details">Giá bán: @Model.ProductDetail.price VNĐ <s>@Model.ProductDetail.cost VNĐ</s></p>
-                        }
-                        else
-                        {
-                            <p id="price-details">Giá bán: @Model.ProductDetail.price VNĐ</p>
-                        }
+                            <p id="price-details">
+                                Giá bán: @Model.ProductDetail.price VNĐ
+                                <s>@Model.ProductDetail.cost VNĐ</s>
+                            </p>
+                            }
+                            else
+                            {
+                                <p id="price-details">Giá bán: @Model.ProductDetail.price VNĐ</p>
+                            }
                         <div class="size-product">
                             <span>Size:</span>
                             @foreach (var size in Model.Sizes.Where(s => Model.ProductDetails.Any(pd => pd.idProduct == Model.ProductDetail.id && pd.idSize == s.id)))
@@ -147,13 +146,13 @@
                             @if (Model.ProductDetail.inventory > 0)
                             {
                                 <button id="decrement" onclick="decrementValue()">-</button>
-                                <input type="text" id="quantity" name="quantity" value="1" readonly max=@Model.ProductDetail.inventory/>
+                                <input type="text" id="quantity" name="quantity" value="1" readonly max=@Model.ProductDetail.inventory />
                                 <button id="increment" onclick="incrementValue()">+</button>
                             }
                             else
                             {
                                 <button id="decrement">-</button>
-                                <input type="text" id="quantity" name="quantity" value="0" readonly max=@Model.ProductDetail.inventory/>
+                                <input type="text" id="quantity" name="quantity" value="0" readonly max=@Model.ProductDetail.inventory />
                                 <button id="increment">+</button>
                             }
                             <p>(Còn @Model.ProductDetail.inventory sản phẩm)</p>
@@ -161,14 +160,14 @@
                         <div class="addtocart-product-details">
                             @if (Model.ProductDetail.inventory > 0)
                             {
-                                <button>Mua ngay</button>
+                                <button><a href="@Url.Action("AddToCart", "Cart", new { id = Model.ProductDetail.id})" style="color: white">Mua ngay</a></button>
                                 <button id="click-me" type="submit"><a href="@Url.Action("AddToCart", "Cart", new { id = Model.ProductDetail.id})" style="color: white">Thêm vào giỏ hàng</a></button>
-                                
+
                             }
                             else
                             {
                                 <button style="background-color: darkred">Mua ngay</button>
-                                <button id="click-me" style="background-color: darkred" type="submit">Thêm vào giỏ hàng</button>
+                                <a><button id="click-me" style="background-color: darkred" type="submit">Thêm vào giỏ hàng</button></a>
                             }
                             <button class="size-chart">Size Chart</button>
                         </div>
@@ -191,7 +190,7 @@
     <section class="items-home product-hot">
         <h2>Các sản phẩm khác</h2>
         <div class="product-hot-list">
-            @foreach (var product in randomProducts)
+            @foreach (var product in randomProducts.Where(p => p.inventory > 0))
             {
                 <div class="list-items product-hot-items">
                     @foreach (var productdetails in Model.ImageProduct.Where(pd => pd.idProduct == product.id).OrderBy(x => Guid.NewGuid()).Take(1))
@@ -205,9 +204,10 @@
                                     <label>@size.nameSize</label>
                                 }
                             </button>
-                            @if (product.saleoff > 0)
+                            @if (product.saleoff.HasValue && product.saleoff > 0)
                             {
-                                <p class="sale-off">@product.saleoff%</p>
+                                var integerSaleOff = Convert.ToInt32(Math.Floor(product.saleoff.Value));
+                                <p class="sale-off" style="--percent-length: 3;">@integerSaleOff%</p>
                             }
                         </div>
                         <div class="information-product-hot">

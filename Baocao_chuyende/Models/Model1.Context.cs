@@ -26,13 +26,10 @@ namespace Baocao_chuyende.Models
         }
     
         public virtual DbSet<AboutU> AboutUs { get; set; }
-        public virtual DbSet<Blog> Blogs { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
-        public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Color> Colors { get; set; }
         public virtual DbSet<ContactU> ContactUs { get; set; }
-        public virtual DbSet<ImageBlog> ImageBlogs { get; set; }
         public virtual DbSet<InformationShop> InformationShops { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductDetail> ProductDetails { get; set; }
@@ -41,5 +38,6 @@ namespace Baocao_chuyende.Models
         public virtual DbSet<TypeProduct> TypeProducts { get; set; }
         public virtual DbSet<VideoHome> VideoHomes { get; set; }
         public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Blog> Blogs { get; set; }
     }
 }

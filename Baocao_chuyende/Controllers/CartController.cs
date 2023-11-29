@@ -21,7 +21,6 @@ namespace Baocao_chuyende.Controllers
             public List<ProductDetail> ProductDetails { get; set; }
             public List<Size> Sizes { get; set; }
             public List<Color> Colors { get; set; }
-            public List<Cart> Carts { get; set; }
 
         }
         public ActionResult Cart()
@@ -56,18 +55,18 @@ namespace Baocao_chuyende.Controllers
                     if (check != null)
                     {
                         check.Quantity = check.Quantity + 1;
-                        check.Amount = (double)(check.Quantity * check.ProductDetailss.price);
+                        check.Amount = (double)(check.Quantity * check.Products.price);
                     }
                     else
                     {
                         Models.CartModel newCart = new Models.CartModel
                         {
                             ProductId = (int)id,
-                            ProductDetailss = objproduct,
+                            Products = objproduct,
                             Quantity = 1,
                             Amount = (double)objproduct.price,
-                            Note = "",
                         };
+                        lstcard.Add(newCart);
                     }
                     Session["Cart"] = lstcard;
                 }

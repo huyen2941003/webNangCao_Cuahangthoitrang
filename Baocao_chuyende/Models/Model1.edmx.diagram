@@ -6,13 +6,10 @@
     <edmx:Diagrams>
       <Diagram DiagramId="70e55db30b204d2ea09c81954c78be8d" Name="Diagram1">
         <EntityTypeShape EntityType="Web_NangcaoModel.AboutU" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Web_NangcaoModel.Blog" Width="1.5" PointX="7.75" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Web_NangcaoModel.Brand" Width="1.5" PointX="3" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Web_NangcaoModel.Cart" Width="1.5" PointX="7.5" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Web_NangcaoModel.Category" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Web_NangcaoModel.Color" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Web_NangcaoModel.ContactU" Width="1.5" PointX="9.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Web_NangcaoModel.ImageBlog" Width="1.5" PointX="10" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="Web_NangcaoModel.InformationShop" Width="1.5" PointX="9.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Web_NangcaoModel.Product" Width="1.5" PointX="5.25" PointY="6.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Web_NangcaoModel.ProductDetail" Width="1.5" PointX="10.5" PointY="7" IsExpanded="true" />
@@ -20,11 +17,7 @@
         <EntityTypeShape EntityType="Web_NangcaoModel.sysdiagram" Width="1.5" PointX="11.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Web_NangcaoModel.TypeProduct" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Web_NangcaoModel.VideoHome" Width="1.5" PointX="11.75" PointY="10.75" IsExpanded="true" />
-        <AssociationConnector Association="Web_NangcaoModel.FK__ImageBlog__idBlo__1EA48E88" ManuallyRouted="false" />
         <AssociationConnector Association="Web_NangcaoModel.FK__Product__idBrand__68487DD7" ManuallyRouted="false" />
-        <AssociationConnector Association="Web_NangcaoModel.FK__Cart__idColor__0F2D40CE" ManuallyRouted="false" />
-        <AssociationConnector Association="Web_NangcaoModel.FK__Cart__idProduct__0E391C95" ManuallyRouted="false" />
-        <AssociationConnector Association="Web_NangcaoModel.FK__Cart__idSize__10216507" ManuallyRouted="false" />
         <AssociationConnector Association="Web_NangcaoModel.FK__Product__idCateg__6754599E" ManuallyRouted="false" />
         <AssociationConnector Association="Web_NangcaoModel.FK__TypeProdu__idCat__5EBF139D" ManuallyRouted="false" />
         <AssociationConnector Association="Web_NangcaoModel.FK__ProductDe__idCol__7A672E12" ManuallyRouted="false" />
@@ -32,6 +25,7 @@
         <AssociationConnector Association="Web_NangcaoModel.FK__ProductDe__idPro__797309D9" ManuallyRouted="false" />
         <AssociationConnector Association="Web_NangcaoModel.FK__ProductDe__idSiz__7B5B524B" ManuallyRouted="false" />
         <EntityTypeShape EntityType="Web_NangcaoModel.Account" Width="1.5" PointX="0.75" PointY="12.75" />
+        <EntityTypeShape EntityType="Web_NangcaoModel.Blog" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

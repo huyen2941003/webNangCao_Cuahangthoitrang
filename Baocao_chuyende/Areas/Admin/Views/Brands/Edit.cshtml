@@ -6,7 +6,7 @@
 }
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Danh mục/</span> Sửa danh mục</h4>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Nhãn hàng/</span> Sửa nhãn hàng</h4>
 
     <!-- Basic Layout & Basic with Icons -->
     @using (Html.BeginForm("Edit", "Brands", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -17,16 +17,16 @@
             <div class="col-xxl">
                 <div class="card mb-4">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Sửa danh mục</h5>
+                        <h5 class="mb-0">Sửa nhãn hàng</h5>
                     </div>
                     <div class="card-body">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         @Html.HiddenFor(model => model.id)
                         <form>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-default-name">@Html.LabelFor(model => model.nameBrands)</label>
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">Tên nhãn hàng</label>
                                 <div class="col-sm-10">
-                                    @Html.EditorFor(model => model.nameBrands, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên danh mục" } })
+                                    @Html.EditorFor(model => model.nameBrands, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên nhãn hàng" } })
                                     @Html.ValidationMessageFor(model => model.nameBrands, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
     }
 </div>
 <div class="buy-now">
-    <a href="@Url.Action("Category", "Category")" class="btn btn-danger btn-buy-now">Quay lại</a>
+    <a href="@Url.Action("Brand", "Brands")" class="btn btn-danger btn-buy-now">Quay lại</a>
 </div>
 <script>
     function showImage(input) {

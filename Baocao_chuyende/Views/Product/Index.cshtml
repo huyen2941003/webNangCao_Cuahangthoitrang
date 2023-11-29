@@ -81,7 +81,7 @@
         <h2>Sản phẩm</h2>
         <hr class="hr-below-heading">
         <div class="product-hot-list">
-            @foreach (var product in Model.Products)
+            @foreach (var product in Model.Products.Where(p => p.inventory > 0))
             {
                 <div class="list-items product-hot-items">
                     @foreach (var productdetails in Model.ProductDetails.Where(pd => pd.idProduct == product.id).OrderBy(x => Guid.NewGuid()).Take(1))
@@ -95,11 +95,61 @@
                                     <label>@size.nameSize</label>
                                 }
                             </button>
-                            <p class="sale-off">@product.saleoff%</p>
+                            @if (product.saleoff.HasValue && product.saleoff > 0)
+                            {
+                                var integerSaleOff = Convert.ToInt32(Math.Floor(product.saleoff.Value));
+                                <p class="sale-off" style="--percent-length: 3;">@integerSaleOff%</p>
+                            }
                         </div>
                         <div class="information-product-hot">
                             <a href="@Url.Action("DetailsProduct", "Product", new { id = product.id})"><h3>@product.nameProduct</h3></a>
-                            <p>Giá: @product.price₫  <s>@product.cost₫</s></p>
+                            @if (product.price != product.cost)
+                            {
+                                <p>Giá: @product.price₫ <s> @product.cost₫</s></p>
+                            }
+                            else
+                            {
+                                <p>Giá: @product.price₫ </p>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </section>
+    <section class="items-home product-hot">
+        <hr class="hr-below-heading" style="margin-bottom: 20px;">
+        <h2 style="margin-left: -800px;">Sản phẩm đang hết hàng</h2>
+        <div class="product-hot-list">
+            @foreach (var product in Model.Products.Where(p => p.inventory == 0))
+            {
+                <div class="list-items product-hot-items">
+                    @foreach (var productdetails in Model.ProductDetails.Where(pd => pd.idProduct == product.id).OrderBy(x => Guid.NewGuid()).Take(1))
+                    {
+                        <div class="image-list">
+                            <img src="~/UpLoad/Product/@productdetails.image" alt="" data-hover="~/UpLoad/Product/@productdetails.image" class="image">
+                            <button class="size-display">
+                                Size:
+                                @foreach (var size in Model.Sizes.Where(s => Model.ProductDetails.Any(pd => pd.idProduct == product.id && pd.idSize == s.id)))
+                                {
+                                    <label>@size.nameSize</label>
+                                }
+                            </button>
+                            @if (product.saleoff.HasValue && product.saleoff > 0)
+                            {
+                                <p class="sale-off" style="--percent-length: 3;">@(Convert.ToInt32(Math.Floor(product.saleoff.Value)))%</p>
+                            }
+                        </div>
+                        <div class="information-product-hot">
+                            <a href="@Url.Action("DetailsProduct", "Product", new { id = product.id})"><h3>@product.nameProduct</h3></a>
+                            @if (product.price != product.cost)
+                            {
+                                <p>Giá: @product.price₫ <s> @product.cost₫</s></p>
+                            }
+                            else
+                            {
+                                <p>Giá: @product.price₫ </p>
+                            }
                         </div>
                     }
                 </div>

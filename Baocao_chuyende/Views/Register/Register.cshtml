@@ -1,4 +1,4 @@
-﻿@model Baocao_chuyende.Models.Customer
+﻿@model Baocao_chuyende.Models.Account
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/LayoutLR.cshtml";
@@ -17,7 +17,7 @@
             <span>Nhập thông tin của bạn</span>
             <div class="infield">
                 <p>Nhập tên người dùng: </p>
-                @Html.TextBoxFor(model => model.nameCustomer, new { placeholder = "Tên người dùng", id = "name" })
+                @Html.TextBoxFor(model => model.fullname, new { placeholder = "Tên người dùng", id = "name" })
             </div>
             <div class="infield">
                 <p>Nhập email: </p>

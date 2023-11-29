@@ -27,16 +27,8 @@
                         <a href=""><i class="fas fa-user"></i></a>
                         <div class="user-hover">
                             <ul>
-                                @if (Session["username"] != null)
-                                {
-                                    <li><a href="">Thông tin cá nhân</a></li>
-                                    <li><a href="@Url.Action("Logout", "Login")">Đăng xuất</a></li>
-                                }
-                                else
-                                {
-                                    <li><a href="@Url.Action("Login", "Login")">Đăng nhập</a></li>
-                                    <li><a href="@Url.Action("Register", "Register")">Đăng ký</a></li>
-                                }
+                                <li><a href="@Url.Action("Login", "Login")">Đăng nhập</a></li>
+                                <li><a href="@Url.Action("Register", "Register")">Đăng ký</a></li>
                             </ul>
                         </div>
                     </li>

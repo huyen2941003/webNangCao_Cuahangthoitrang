@@ -17,9 +17,15 @@
     }
 }
 @{
-    var allProducts = Model.Products.ToList();
+    var allProducts = Model.Products.ToList().Where(p => p.inventory > 0);
     var randomPr = new Random();
     var randomProducts = allProducts.OrderBy(x => randomPr.Next()).Take(3).ToList();
+}
+
+@{
+    var allCategory = Model.Categories.ToList();
+    var randomCate = new Random();
+    var randomCategory = allCategory.OrderBy(x => randomCate.Next()).Take(6).ToList();
 }
 @section HeaderContent {
     <li class="list-menu">
@@ -109,10 +115,29 @@
         </div>
     </div>
     <section class="items-home category-index">
+        <h2>Nhãn hàng</h2>
+        <hr class="hr-below-heading">
+        <div class="category-list-index">
+            @foreach (var brands in Model.Brands)
+            {
+                <div class="list-items category-items-index">
+                    <div class="image-list">
+                        <img src="~/UpLoad/Brands/@brands.imageBrands" alt="">
+                    </div>
+                    <div class="information-category-index">
+                        <a href="@Url.Action("SearchByBrand", "Product", new { brandName = brands.nameBrands })">
+                            <h3 class="your-css-class">@brands.nameBrands</h3>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+    <section class="items-home category-index">
         <h2>Danh mục</h2>
         <hr class="hr-below-heading">
         <div class="category-list-index">
-            @foreach (var category in Model.Categories)
+            @foreach (var category in randomCategory)
             {
                 <div class="list-items category-items-index">
                     @foreach (var product in Model.Products.Where(p => p.idCategory == category.id).OrderBy(x => Guid.NewGuid()).Take(1))
@@ -137,7 +162,7 @@
         <h2>Sản phẩm bán chạy nhất</h2>
         <hr class="hr-below-heading">
         <div class="product-hot-list">
-            @foreach (var product in randomProducts)
+            @foreach (var product in randomProducts.Where(p => p.inventory > 0))
             {
                 <div class="list-items product-hot-items">
                     @foreach (var productdetails in Model.ProductDetails.Where(pd => pd.idProduct == product.id).OrderBy(x => Guid.NewGuid()).Take(1))
@@ -151,14 +176,22 @@
                                     <label>@size.nameSize</label>
                                 }
                             </button>
-                            @if (product.saleoff > 0)
+                            @if (product.saleoff.HasValue && product.saleoff > 0)
                             {
-                                <p class="sale-off">@product.saleoff%</p>
+                                var integerSaleOff = Convert.ToInt32(Math.Floor(product.saleoff.Value));
+                                <p class="sale-off" style="--percent-length: 3;">@integerSaleOff%</p>
                             }
                         </div>
                         <div class="information-product-hot">
                             <a href="@Url.Action("DetailsProduct", "Product", new { id = product.id})"><h3>@product.nameProduct</h3></a>
-                            <p>Giá: @product.price₫  <s>@product.cost₫</s></p>
+                            @if (product.price != product.cost)
+                            {
+                                <p>Giá: @product.price₫ <s> @product.cost₫</s></p>
+                            }
+                            else
+                            {
+                                <p>Giá: @product.price₫ </p>
+                            }
                         </div>
                     }
                 </div>

@@ -1,0 +1,67 @@
+﻿@model Baocao_chuyende.Models.InformationShop
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Sản phẩm/</span> Danh mục</h4>
+
+    <!-- Basic Layout & Basic with Icons -->
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <!-- Basic Layout -->
+            <div class="col-xxl">
+                <div class="card mb-4">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Thêm màu mới</h5>
+                    </div>
+                    <div class="card-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <form>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">@Html.LabelFor(model => model.address)</label>
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên size mới" } })
+                                    @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">@Html.LabelFor(model => model.hotline)</label>
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.hotline, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên size mới" } })
+                                    @Html.ValidationMessageFor(model => model.hotline, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">@Html.LabelFor(model => model.zalo)</label>
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.zalo, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên size mới" } })
+                                    @Html.ValidationMessageFor(model => model.zalo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">@Html.LabelFor(model => model.wholesale)</label>
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.wholesale, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên size mới" } })
+                                    @Html.ValidationMessageFor(model => model.wholesale, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row justify-content-end">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Thêm mới</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="buy-now">
+    <a href="@Url.Action("InformationShop", "InformationShop")" class="btn btn-danger btn-buy-now">Quay lại</a>
+</div>

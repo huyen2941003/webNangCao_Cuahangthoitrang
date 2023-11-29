@@ -58,6 +58,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
                 }
 
                 existingvideo.text = video.text;
+                existingvideo.urlVideo = video.urlVideo;
                 db.SaveChanges();
                 return RedirectToAction("VideoHome");
             }

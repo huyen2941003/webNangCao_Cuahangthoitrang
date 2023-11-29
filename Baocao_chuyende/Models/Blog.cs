@@ -11,21 +11,14 @@ namespace Baocao_chuyende.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Web.Mvc;
+
     public partial class Blog
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Blog()
-        {
-            this.ImageBlogs = new HashSet<ImageBlog>();
-        }
-    
         public int id { get; set; }
         public string titleBlog { get; set; }
+        [AllowHtml]
         public string textBlog { get; set; }
         public string imageTitle { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ImageBlog> ImageBlogs { get; set; }
     }
 }

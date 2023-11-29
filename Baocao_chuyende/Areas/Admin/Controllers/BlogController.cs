@@ -1,6 +1,8 @@
 ﻿using Baocao_chuyende.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,7 +15,6 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
         public class BlogViewModel
         {
             public List<Blog> Blogs { get; set; }
-            public List<IGrouping<int?, ImageBlog>> GroupedImageBlogs { get; set; }
         }
 
         Web_NangcaoEntities db = new Web_NangcaoEntities();
@@ -21,18 +22,8 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
         public ActionResult Blog()
         {
             List<Blog> blogs = db.Blogs.ToList();
-            List<ImageBlog> imageBlogs = db.ImageBlogs.ToList();
-            var groupedImageBlogs = imageBlogs.GroupBy(imageBlog => imageBlog.idBlog).ToList();
-            var viewModel = new BlogViewModel
-            {
-                Blogs = blogs,
-                GroupedImageBlogs = groupedImageBlogs
-            };
-            return View(viewModel);
+            return View(blogs);
         }
-
-
-        //Blog
 
         [HttpGet]
         public ActionResult CreateBlog()
@@ -41,16 +32,26 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateBlog(Blog blog)
+        public ActionResult CreateBlog(Blog blog, HttpPostedFileBase upLoad)
         {
-            if (ModelState.IsValid)
+            db.Blogs.Add(blog);
+            db.SaveChanges();
+
+            if (upLoad != null && upLoad.ContentLength > 0)
             {
-                db.Blogs.Add(blog);
+                int id = int.Parse(db.Blogs.ToList().Last().id.ToString());
+                string _FileName = "";
+                int index = upLoad.FileName.LastIndexOf('.');
+                _FileName = "blog" + id.ToString() + upLoad.FileName.Substring(index);
+                string _path = Path.Combine(Server.MapPath("~/UpLoad/Blog"), _FileName);
+                upLoad.SaveAs(_path);
+                Blog images = db.Blogs.FirstOrDefault(x => x.id == id);
+                images.imageTitle = _FileName;
                 db.SaveChanges();
-                return RedirectToAction("Blog");
             }
-            return View(blog);
+            return RedirectToAction("Blog");
         }
+        
         public ActionResult EditBlog(int id)
         {
             var blog = db.Blogs.Find(id);
@@ -64,7 +65,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditBlog(Blog blog)
+        public ActionResult EditBlog(Blog blog, HttpPostedFileBase upLoad)
         {
             if (ModelState.IsValid)
             {
@@ -73,11 +74,23 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
                 {
                     return HttpNotFound();
                 }
-
                 existingblog.titleBlog = blog.titleBlog;
                 existingblog.textBlog = blog.textBlog;
-                existingblog.imageTitle = blog.imageTitle;
-
+                if (upLoad != null && upLoad.ContentLength > 0)
+                {
+                    if (!string.IsNullOrEmpty(existingblog.imageTitle))
+                    {
+                        var imagePath = Path.Combine(Server.MapPath("~/UpLoad/Blog"), existingblog.imageTitle);
+                        if (System.IO.File.Exists(imagePath))
+                        {
+                            System.IO.File.Delete(imagePath);
+                        }
+                    }
+                    string _FileName = "blog" + existingblog.id.ToString() + Path.GetExtension(upLoad.FileName);
+                    string _path = Path.Combine(Server.MapPath("~/UpLoad/Blog"), _FileName);
+                    upLoad.SaveAs(_path);
+                    existingblog.imageTitle = _FileName;
+                }
                 db.SaveChanges();
                 return RedirectToAction("Blog");
             }
@@ -110,11 +123,6 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
             db.SaveChanges();
             return RedirectToAction("Blog");
         }
-
-
-
-        //BlogDetails
-
 
     }
 }

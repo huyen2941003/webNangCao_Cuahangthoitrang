@@ -17,9 +17,7 @@ namespace Baocao_chuyende.Controllers
             public List<Category> Categories { get; set; }
             public List<Brand> Brands { get; set; }
             public List<Blog> Blogs { get; set; }
-            public List<ImageBlog> ImageBlogs { get; set; }
             public Blog BlogDetail { get; set; }
-            public ImageBlog ImageBlogDetail { get; set; }
             public List<TypeProduct> TypeProducts { get; set; }
         }
 
@@ -38,7 +36,6 @@ namespace Baocao_chuyende.Controllers
         public ActionResult DetailsBlog(int id)
         {
             var blog = db.Blogs.FirstOrDefault(b => b.id == id);
-            var imageblog = db.ImageBlogs.FirstOrDefault(ib => ib.idBlog == id);
             if (blog == null)
             {
                 return HttpNotFound();
@@ -49,9 +46,7 @@ namespace Baocao_chuyende.Controllers
                 Categories = db.Categories.ToList(),
                 Brands = db.Brands.ToList(),
                 Blogs = db.Blogs.ToList(),
-                ImageBlogs = db.ImageBlogs.ToList(),
                 BlogDetail = blog,
-                ImageBlogDetail = imageblog,
                 TypeProducts = db.TypeProducts.ToList(),
             };
 

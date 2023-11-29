@@ -64,7 +64,7 @@ header{
     background-color: RGB(24 40 83);
     padding: 30px;
     top: 100%;
-    left: 130px;
+    left: 100px;
     border-radius: 5px;
     text-align: left;
     z-index: 999999;
@@ -83,6 +83,7 @@ header{
     color: #cfd5e2;
     font-size: 19px;
     text-decoration: 1px underline solid #cfd5e2;
+    margin-left: 20px;
 }
 .list-menu-hover li:hover,
 .user-hover li:hover{
@@ -108,14 +109,15 @@ header{
     z-index: 999999;
     transition: opacity 1s;
 }
+.user-hover ul{
+    text-align: center;
+}
 .user-hover li {
     margin: 7px 0;
     color: #cfd5e2;
     font-size: 19px;
     text-decoration: 1px underline solid #cfd5e2;
 }
-
-
 
 .login {
     width: 450px;

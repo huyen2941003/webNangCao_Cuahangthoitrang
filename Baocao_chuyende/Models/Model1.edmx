@@ -33,7 +33,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="titleBlog" Type="nvarchar" MaxLength="1000" />
-          <Property Name="textBlog" Type="nvarchar" MaxLength="1000" />
+          <Property Name="textBlog" Type="nvarchar(max)" />
           <Property Name="imageTitle" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Brands">
@@ -43,18 +43,6 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nameBrands" Type="nvarchar" MaxLength="200" />
           <Property Name="imageBrands" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="Cart">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="idProduct" Type="int" />
-          <Property Name="idSize" Type="int" />
-          <Property Name="idColor" Type="int" />
-          <Property Name="sessionId" Type="int" />
-          <Property Name="aMount" Type="int" />
-          <Property Name="payment" Type="float" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -79,14 +67,6 @@
           <Property Name="email" Type="nvarchar" MaxLength="200" />
           <Property Name="phone" Type="nvarchar" MaxLength="15" />
           <Property Name="textContactUs" Type="nvarchar" MaxLength="1000" />
-        </EntityType>
-        <EntityType Name="ImageBlog">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="idBlog" Type="int" />
-          <Property Name="imageBlog" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="InformationShop">
           <Key>
@@ -157,54 +137,6 @@
           <Property Name="text" Type="nvarchar" MaxLength="1000" />
           <Property Name="urlVideo" Type="nvarchar" MaxLength="200" />
         </EntityType>
-        <Association Name="FK__Cart__idColor__0F2D40CE">
-          <End Role="Color" Type="Self.Color" Multiplicity="0..1" />
-          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Color">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Cart">
-              <PropertyRef Name="idColor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Cart__idProduct__0E391C95">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Cart">
-              <PropertyRef Name="idProduct" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Cart__idSize__10216507">
-          <End Role="Size" Type="Self.Size" Multiplicity="0..1" />
-          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Size">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Cart">
-              <PropertyRef Name="idSize" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ImageBlog__idBlo__1EA48E88">
-          <End Role="Blog" Type="Self.Blog" Multiplicity="0..1" />
-          <End Role="ImageBlog" Type="Self.ImageBlog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Blog">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ImageBlog">
-              <PropertyRef Name="idBlog" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Product__idBrand__68487DD7">
           <End Role="Brands" Type="Self.Brands" Multiplicity="0..1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -294,11 +226,9 @@
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Blog" EntityType="Self.Blog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Brands" EntityType="Self.Brands" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Color" EntityType="Self.Color" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContactUs" EntityType="Self.ContactUs" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ImageBlog" EntityType="Self.ImageBlog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InformationShop" EntityType="Self.InformationShop" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductDetails" EntityType="Self.ProductDetails" Schema="dbo" store:Type="Tables" />
@@ -306,22 +236,6 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeProduct" EntityType="Self.TypeProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VideoHome" EntityType="Self.VideoHome" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Cart__idColor__0F2D40CE" Association="Self.FK__Cart__idColor__0F2D40CE">
-            <End Role="Color" EntitySet="Color" />
-            <End Role="Cart" EntitySet="Cart" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Cart__idProduct__0E391C95" Association="Self.FK__Cart__idProduct__0E391C95">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="Cart" EntitySet="Cart" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Cart__idSize__10216507" Association="Self.FK__Cart__idSize__10216507">
-            <End Role="Size" EntitySet="Size" />
-            <End Role="Cart" EntitySet="Cart" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ImageBlog__idBlo__1EA48E88" Association="Self.FK__ImageBlog__idBlo__1EA48E88">
-            <End Role="Blog" EntitySet="Blog" />
-            <End Role="ImageBlog" EntitySet="ImageBlog" />
-          </AssociationSet>
           <AssociationSet Name="FK__Product__idBrand__68487DD7" Association="Self.FK__Product__idBrand__68487DD7">
             <End Role="Brands" EntitySet="Brands" />
             <End Role="Product" EntitySet="Product" />
@@ -364,16 +278,6 @@
           <Property Name="contact" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Blog">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="titleBlog" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="textBlog" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="imageTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ImageBlogs" Relationship="Self.FK__ImageBlog__idBlo__1EA48E88" FromRole="Blog" ToRole="ImageBlog" />
-        </EntityType>
         <EntityType Name="Brand">
           <Key>
             <PropertyRef Name="id" />
@@ -382,21 +286,6 @@
           <Property Name="nameBrands" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="imageBrands" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Products" Relationship="Self.FK__Product__idBrand__68487DD7" FromRole="Brands" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="Cart">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idProduct" Type="Int32" />
-          <Property Name="idSize" Type="Int32" />
-          <Property Name="idColor" Type="Int32" />
-          <Property Name="sessionId" Type="Int32" />
-          <Property Name="aMount" Type="Int32" />
-          <Property Name="payment" Type="Double" />
-          <NavigationProperty Name="Color" Relationship="Self.FK__Cart__idColor__0F2D40CE" FromRole="Cart" ToRole="Color" />
-          <NavigationProperty Name="Product" Relationship="Self.FK__Cart__idProduct__0E391C95" FromRole="Cart" ToRole="Product" />
-          <NavigationProperty Name="Size" Relationship="Self.FK__Cart__idSize__10216507" FromRole="Cart" ToRole="Size" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -413,7 +302,6 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nameColor" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Carts" Relationship="Self.FK__Cart__idColor__0F2D40CE" FromRole="Color" ToRole="Cart" />
           <NavigationProperty Name="ProductDetails" Relationship="Self.FK__ProductDe__idCol__7A672E12" FromRole="Color" ToRole="ProductDetails" />
         </EntityType>
         <EntityType Name="ContactU">
@@ -425,15 +313,6 @@
           <Property Name="email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="textContactUs" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="ImageBlog">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idBlog" Type="Int32" />
-          <Property Name="imageBlog1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Blog" Relationship="Self.FK__ImageBlog__idBlo__1EA48E88" FromRole="ImageBlog" ToRole="Blog" />
         </EntityType>
         <EntityType Name="InformationShop">
           <Key>
@@ -461,7 +340,6 @@
           <Property Name="inventory" Type="Int32" />
           <Property Name="sizechart" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Brand" Relationship="Self.FK__Product__idBrand__68487DD7" FromRole="Product" ToRole="Brands" />
-          <NavigationProperty Name="Carts" Relationship="Self.FK__Cart__idProduct__0E391C95" FromRole="Product" ToRole="Cart" />
           <NavigationProperty Name="Category" Relationship="Self.FK__Product__idCateg__6754599E" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="TypeProduct" Relationship="Self.FK__Product__idType__693CA210" FromRole="Product" ToRole="TypeProduct" />
           <NavigationProperty Name="ProductDetails" Relationship="Self.FK__ProductDe__idPro__797309D9" FromRole="Product" ToRole="ProductDetails" />
@@ -485,7 +363,6 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nameSize" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Carts" Relationship="Self.FK__Cart__idSize__10216507" FromRole="Size" ToRole="Cart" />
           <NavigationProperty Name="ProductDetails" Relationship="Self.FK__ProductDe__idSiz__7B5B524B" FromRole="Size" ToRole="ProductDetails" />
         </EntityType>
         <EntityType Name="sysdiagram">
@@ -516,18 +393,6 @@
           <Property Name="text" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="urlVideo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
-        <Association Name="FK__ImageBlog__idBlo__1EA48E88">
-          <End Role="Blog" Type="Self.Blog" Multiplicity="0..1" />
-          <End Role="ImageBlog" Type="Self.ImageBlog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Blog">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ImageBlog">
-              <PropertyRef Name="idBlog" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Product__idBrand__68487DD7">
           <End Role="Brands" Type="Self.Brand" Multiplicity="0..1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -537,42 +402,6 @@
             </Principal>
             <Dependent Role="Product">
               <PropertyRef Name="idBrands" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Cart__idColor__0F2D40CE">
-          <End Role="Color" Type="Self.Color" Multiplicity="0..1" />
-          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Color">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Cart">
-              <PropertyRef Name="idColor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Cart__idProduct__0E391C95">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Cart">
-              <PropertyRef Name="idProduct" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Cart__idSize__10216507">
-          <End Role="Size" Type="Self.Size" Multiplicity="0..1" />
-          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Size">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Cart">
-              <PropertyRef Name="idSize" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -650,13 +479,10 @@
         </Association>
         <EntityContainer Name="Web_NangcaoEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AboutUs" EntityType="Self.AboutU" />
-          <EntitySet Name="Blogs" EntityType="Self.Blog" />
           <EntitySet Name="Brands" EntityType="Self.Brand" />
-          <EntitySet Name="Carts" EntityType="Self.Cart" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Colors" EntityType="Self.Color" />
           <EntitySet Name="ContactUs" EntityType="Self.ContactU" />
-          <EntitySet Name="ImageBlogs" EntityType="Self.ImageBlog" />
           <EntitySet Name="InformationShops" EntityType="Self.InformationShop" />
           <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="ProductDetails" EntityType="Self.ProductDetail" />
@@ -664,25 +490,9 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TypeProducts" EntityType="Self.TypeProduct" />
           <EntitySet Name="VideoHomes" EntityType="Self.VideoHome" />
-          <AssociationSet Name="FK__ImageBlog__idBlo__1EA48E88" Association="Self.FK__ImageBlog__idBlo__1EA48E88">
-            <End Role="Blog" EntitySet="Blogs" />
-            <End Role="ImageBlog" EntitySet="ImageBlogs" />
-          </AssociationSet>
           <AssociationSet Name="FK__Product__idBrand__68487DD7" Association="Self.FK__Product__idBrand__68487DD7">
             <End Role="Brands" EntitySet="Brands" />
             <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Cart__idColor__0F2D40CE" Association="Self.FK__Cart__idColor__0F2D40CE">
-            <End Role="Color" EntitySet="Colors" />
-            <End Role="Cart" EntitySet="Carts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Cart__idProduct__0E391C95" Association="Self.FK__Cart__idProduct__0E391C95">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Cart" EntitySet="Carts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Cart__idSize__10216507" Association="Self.FK__Cart__idSize__10216507">
-            <End Role="Size" EntitySet="Sizes" />
-            <End Role="Cart" EntitySet="Carts" />
           </AssociationSet>
           <AssociationSet Name="FK__Product__idCateg__6754599E" Association="Self.FK__Product__idCateg__6754599E">
             <End Role="Category" EntitySet="Categories" />
@@ -709,6 +519,7 @@
             <End Role="ProductDetails" EntitySet="ProductDetails" />
           </AssociationSet>
           <EntitySet Name="Accounts" EntityType="Web_NangcaoModel.Account" />
+          <EntitySet Name="Blogs" EntityType="Web_NangcaoModel.Blog" />
         </EntityContainer>
         <EntityType Name="Account">
           <Key>
@@ -722,6 +533,15 @@
           <Property Name="address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="username" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Blog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="titleBlog" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="textBlog" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="imageTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -739,35 +559,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Blogs">
-            <EntityTypeMapping TypeName="Web_NangcaoModel.Blog">
-              <MappingFragment StoreEntitySet="Blog">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="titleBlog" ColumnName="titleBlog" />
-                <ScalarProperty Name="textBlog" ColumnName="textBlog" />
-                <ScalarProperty Name="imageTitle" ColumnName="imageTitle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Brands">
             <EntityTypeMapping TypeName="Web_NangcaoModel.Brand">
               <MappingFragment StoreEntitySet="Brands">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nameBrands" ColumnName="nameBrands" />
                 <ScalarProperty Name="imageBrands" ColumnName="imageBrands" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Carts">
-            <EntityTypeMapping TypeName="Web_NangcaoModel.Cart">
-              <MappingFragment StoreEntitySet="Cart">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="idProduct" ColumnName="idProduct" />
-                <ScalarProperty Name="idSize" ColumnName="idSize" />
-                <ScalarProperty Name="idColor" ColumnName="idColor" />
-                <ScalarProperty Name="sessionId" ColumnName="sessionId" />
-                <ScalarProperty Name="aMount" ColumnName="aMount" />
-                <ScalarProperty Name="payment" ColumnName="payment" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -795,15 +592,6 @@
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="textContactUs" ColumnName="textContactUs" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ImageBlogs">
-            <EntityTypeMapping TypeName="Web_NangcaoModel.ImageBlog">
-              <MappingFragment StoreEntitySet="ImageBlog">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="idBlog" ColumnName="idBlog" />
-                <ScalarProperty Name="imageBlog1" ColumnName="imageBlog" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -893,6 +681,16 @@
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="fullname" ColumnName="fullname" />
                 <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Blogs">
+            <EntityTypeMapping TypeName="Web_NangcaoModel.Blog">
+              <MappingFragment StoreEntitySet="Blog">
+                <ScalarProperty Name="imageTitle" ColumnName="imageTitle" />
+                <ScalarProperty Name="textBlog" ColumnName="textBlog" />
+                <ScalarProperty Name="titleBlog" ColumnName="titleBlog" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

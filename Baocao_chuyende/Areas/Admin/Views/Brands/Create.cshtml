@@ -25,7 +25,7 @@
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="basic-default-name">Tên nhãn hàng</label>
                                 <div class="col-sm-10">
-                                    @Html.EditorFor(model => model.nameBrands, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên danh mục" } })
+                                    @Html.EditorFor(model => model.nameBrands, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên nhẫn hàng", @required = "required" } })
                                     @Html.ValidationMessageFor(model => model.nameBrands, "", new { @class = "text-danger" })
                                 </div>
                             </div>

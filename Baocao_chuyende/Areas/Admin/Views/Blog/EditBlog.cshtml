@@ -5,50 +5,89 @@
     Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
 }
 
-<h2>EditBlog</h2>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Danh mục/</span> Sửa danh mục</h4>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Blog</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.titleBlog, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.titleBlog, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.titleBlog, "", new { @class = "text-danger" })
+    <!-- Basic Layout & Basic with Icons -->
+    @using (Html.BeginForm("EditBlog", "Blog", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <!-- Basic Layout -->
+            <div class="col-xxl">
+                <div class="card mb-4">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Sửa danh mục</h5>
+                    </div>
+                    <div class="card-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.id)
+                        <form>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">@Html.LabelFor(model => model.titleBlog)</label>
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.titleBlog, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên danh mục" } })
+                                    @Html.ValidationMessageFor(model => model.titleBlog, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">@Html.LabelFor(model => model.textBlog)</label>
+                                <div class="col-sm-10">
+                                    @Html.TextAreaFor(x => x.textBlog, new { @class = "form-control", @id = "txtDetail" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Logo nhãn hàng</label>
+                                <div class="col-sm-10">
+                                    <input type="file" name="upLoad" id="upLoad" accept="image/*" onchange="showImage(this); required " />
+                                    @if (!string.IsNullOrEmpty(Model.imageTitle))
+                                    {
+                                        <img id="selectedImage" src="@Url.Content($"~/UpLoad/Blog/{Model.imageTitle}")" alt="Ảnh được chọn" style="max-width: 200px; max-height: 200px; margin-top: 10px;" />
+                                    }
+                                    else
+                                    {
+                                        <img id="selectedImage" src="#" alt="Ảnh được chọn" style="display: none; max-width: 200px; max-height: 200px; margin-top: 10px;" />
+                                    }
+                                </div>
+                            </div>
+                            <div class="row justify-content-end">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Sửa</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.textBlog, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.textBlog, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.textBlog, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.imageTitle, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.imageTitle, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.imageTitle, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    }
 </div>
+<div class="buy-now">
+    <a href="@Url.Action("Blog", "Blog")" class="btn btn-danger btn-buy-now">Quay lại</a>
+</div>
+<script>
+    function showImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#selectedImage')
+                    .attr('src', e.target.result)
+                    .show();
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+</script>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace('txtDetail', {
+                customConfig: '/support/ckeditor/config.js',
+                extraAllowedContent: 'span',
+            });
+        });
+    </script>
+}

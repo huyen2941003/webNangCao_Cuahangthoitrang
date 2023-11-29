@@ -82,10 +82,7 @@
             <h2>@Model.BlogDetail.titleBlog</h2>
             <hr>
             <div class="information-blogdetails">
-                <p>@Model.BlogDetail.textBlog</p>
-                <img src="~/Upload/Blog/@Model.BlogDetail.imageTitle" alt="Your Image">
-                <p>@Model.BlogDetail.textBlog</p>
-                <img src="~/Upload/Blog/@Model.ImageBlogDetail.imageBlog1" alt="Your Image">
+                @Html.Raw(Model.BlogDetail.textBlog)
             </div>
         </div>
         <div class="blogdetails-list blog-items-list">

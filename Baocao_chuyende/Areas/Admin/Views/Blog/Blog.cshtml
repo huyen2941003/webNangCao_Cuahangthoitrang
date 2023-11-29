@@ -1,15 +1,15 @@
-﻿@model Baocao_chuyende.Areas.Admin.Controllers.BlogController.BlogViewModel
+﻿@model IEnumerable<Baocao_chuyende.Models.Blog>
 @{
     ViewBag.Title = "Blog";
     Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
 }
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Sản phẩm /</span> Chi tiết sản phẩm</h4>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"> Blog /</span> Bài viết</h4>
     <!-- Basic Bootstrap Table -->
 
     <div class="card">
-        <h5 class="card-header">Danh sách các loại màu</h5>
+        <h5 class="card-header">Danh sách các Bài viết</h5>
         <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead>
@@ -21,9 +21,6 @@
                             Tiêu đề
                         </th>
                         <th>
-                            Nội dung
-                        </th>
-                        <th>
                             Ảnh nổi bật
                         </th>
                         <th>
@@ -32,7 +29,7 @@
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    @foreach (var blog in Model.Blogs)
+                    @foreach (var blog in Model)
                     {
                         <tr>
                             <td>
@@ -40,9 +37,6 @@
                             </td>
                             <td>
                                 @blog.titleBlog
-                            </td>
-                            <td>
-                                @blog.textBlog
                             </td>
                             <td>
                                 <img src="@Url.Content("~/UpLoad/Blog/" + blog.imageTitle)" alt="Image" style="width: 100px;" />
@@ -65,69 +59,7 @@
         </div>
     </div>
     <!--/ Basic Bootstrap Table -->
-</div>
-
-<hr class="my-5" />
-
-<div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Sản phẩm /</span> Chi tiết sản phẩm</h4>
-    <!-- Basic Bootstrap Table -->
-
-    <div class="card">
-        <h5 class="card-header">Danh sách các loại màu</h5>
-        <div class="table-responsive text-nowrap">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Mã
-                        </th>
-                        <th>
-                            Tên Blog
-                        </th>
-                        <th>
-                            Ảnh
-                        </th>
-                        <th>
-                            Chức năng
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="table-border-bottom-0">
-                    @foreach (var group in Model.GroupedImageBlogs)
-                    {
-                        <tr>
-                            <td>
-                                @group.First().id 
-                            </td>
-                            <td>
-                                @{
-                                    var blogName = Model.Blogs.FirstOrDefault(b => b.id == group.First().idBlog)?.titleBlog;
-                                }
-                                @blogName
-                            </td>
-                            <td>
-                                @foreach (var blog in group)
-                                {
-                                    <img src="@Url.Content("~/UpLoad/Blog/" + blog.imageBlog1)" alt="Image" style="width: 100px; margin: 5px;" />
-                                }
-                            </td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                        <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="@Url.Action("EditBlogDetails", "Blog", new { id = group.First().id})"><i class="bx bx-edit-alt me-1"></i> Chỉnh sửa</a>
-                                        <a class="dropdown-item" href="@Url.Action("DeleteBlogDetails", "Blog", new { id = group.First().id})"><i class="bx bx-trash me-1"></i> Xóa</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+    <div class="buy-now">
+        <a href="@Url.Action("CreateBlog", "Blog")" class="btn btn-danger btn-buy-now">Thêm mới</a>
     </div>
-    <!--/ Basic Bootstrap Table -->
 </div>
