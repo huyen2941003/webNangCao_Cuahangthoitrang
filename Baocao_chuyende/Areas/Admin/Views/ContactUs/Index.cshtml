@@ -1,0 +1,177 @@
+﻿@using PagedList;
+@using PagedList.Mvc
+@model IPagedList<Baocao_chuyende.Models.ContactU>
+@{
+    ViewBag.Title = "ContactUs";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Loại sản phẩm /</span> Danh mục</h4>
+
+    <!-- Basic Bootstrap Table -->
+    <div class="card">
+        <h5 class="card-header">Danh mục sản phẩm</h5>
+        <div class="table-responsive text-nowrap">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="SelectAll" /></th>
+                        <th>
+                            STT
+                        </th>
+                        <th>
+                            Tên khách hàng
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Số điện thoại
+                        </th>
+                        <th>
+                            Tin nhắn
+                        </th>
+                        <th>
+                            Đã đọc
+                        </th>
+                        <th>
+                            Chức năng
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var item in Model)
+                    {
+                        bool? isCheckNullable = item.isCheck;
+                        bool isCheck = isCheckNullable ?? false;
+                        var check = isCheck ? "<i class='bx bxs-checkbox-checked text-success' style='font-size: 30px;'></i>" : "<i class='bx bxs-x-circle text-danger' style='font-size: 25px;'></i>";
+                        <tr>
+                            <td><input type="checkbox" class="cbkItem" value="@item.id" /></td>
+                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong> @Html.DisplayFor(modelItem => item.id)</strong></td>
+                            <td>@Html.DisplayFor(modelItem => item.nameCustomer)</td>
+                            <td>@Html.DisplayFor(modelItem => item.email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.phone)</td>
+                            <td>@Html.DisplayFor(modelItem => item.textContactUs)</td>
+                            <td style="text-align: center;">
+                                <a href="#" data-id="@item.id" class="btnActive">@Html.Raw(check)</a>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item btn-delete" data-id="@item.id"><i class="bx bx-trash me-1"></i> Xóa</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="buy-now">
+            <a href="#" class="btn btn-danger btn-buy-now" id="btnDeleteAll">Xóa nhiều bản lưu</a>
+        </div>
+    </div>
+    <div style="text-align: center; margin: 30px">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
+    </div>
+    <!--/ Basic Bootstrap Table -->
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '#btnDeleteAll', function () {
+                var str = "";
+                var i = 0;
+                var checkbox = $(this).parents('.card').find('tr td input:checkbox');
+                checkbox.each(function () {
+                    if (this.checked) {
+                        checkbox.attr('selected', 'checked');
+                        var _id = $(this).val();
+                        if (i === 0) {
+                            str += _id;
+                        }
+                        else {
+                            str += "," + _id;
+                        }
+                        i++;
+                    } else {
+                        checkbox.attr('selected', '');
+                    }
+                });
+                if (str.length > 0) {
+                    var confr = confirm("Bạn có muốn xóa các bản ghi không?");
+                    if (confr === true) {
+                        $.ajax({
+                            url: '/Admin/ContactUs/DeleteAll',
+                            type: 'POST',
+                            data: { ids: str },
+                            success: function (rs) {
+                                if (rs.success) {
+                                    location.reload();
+                                }
+                            }
+                        });
+                    }
+                }
+                else {
+                    alert("Vui lòng chọn ít nhất một bản ghi để xóa.");
+                }
+            });
+            $('body').on('change', '#SelectAll', function () {
+                var checkStatus = this.checked;
+                var checkbox = $(this).parents('.table-responsive').find('tr td input:checkbox');
+                checkbox.each(function () {
+                    this.checked = checkStatus;
+                    if (this.checked) {
+                        checkbox.attr('selected', 'checked');
+                    } else {
+                        checkbox.attr('selected', '');
+                    }
+                });
+            });
+            $('body').on('click', '.btn-delete', function () {
+                var id = $(this).data("id");
+                var confr = confirm("Bạn có muốn xóa không?");
+                if (confr === true) {
+                    $.ajax({
+                        url: '/Admin/ContactUs/Delete',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('#delete' + id).remove();
+                                location.reload();
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        $(document).ready(function () {
+            $('body').on('click', '.btnActive', function () {
+                var btn = $(this);
+                var id = btn.data("id");
+                $.ajax({
+                    url: '/Admin/ContactUs/IsActive',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.success) {
+                            if (rs.isAcive) {
+                                btn.html("<i class='bx bxs-checkbox-checked text-success' style='font-size: 30px;'></i>");
+                                location.reload();
+                            } else {
+                                btn.html("< i class= 'bx bxs-x-circle text-danger' style = 'font-size: 25px;' ></i >")
+                                location.reload();
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,9 +1,11 @@
 ﻿using Baocao_chuyende.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace Baocao_chuyende.Areas.Admin.Controllers
 {
@@ -12,10 +14,14 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
     {
         Web_NangcaoEntities db = new Web_NangcaoEntities();
         // GET: Admin/InformationShop
-        public ActionResult InformationShop()
+        public ActionResult Index(int? page)
         {
-            List<InformationShop> product = db.InformationShops.ToList();
-            return View(product);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            List<InformationShop> info = db.InformationShops.ToList();
+            IPagedList<InformationShop> paged = info.ToPagedList(pageNumber, pageSize);
+
+            return View(paged);
         }
         [HttpGet]
         public ActionResult Create()
@@ -30,7 +36,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
             {
                 db.InformationShops.Add(InformationShop);
                 db.SaveChanges();
-                return RedirectToAction("InformationShop");
+                return RedirectToAction("Index");
             }
             return View(InformationShop);
         }
@@ -63,36 +69,45 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
                 existingInformationShop.wholesale = InformationShop.wholesale;
 
                 db.SaveChanges();
-                return RedirectToAction("InformationShop");
+                return RedirectToAction("Index");
             }
 
             return View(InformationShop);
         }
+
         public ActionResult Delete(int id)
         {
-            var InformationShop = db.InformationShops.Find(id);
-
-            if (InformationShop == null)
+            var info = db.InformationShops.Find(id);
+            if (info != null)
             {
-                return HttpNotFound();
+                db.InformationShops.Remove(info);
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            return View(InformationShop);
+            return Json(new { success = false });
         }
+
         [HttpPost]
-        [ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteAll(string ids)
         {
-            var InformationShop = db.InformationShops.Find(id);
-
-            if (InformationShop == null)
+            if (!string.IsNullOrEmpty(ids))
             {
-                return HttpNotFound();
+                var items = ids.Split(',');
+                foreach (var id in items)
+                {
+                    if (int.TryParse(id, out int infoId))
+                    {
+                        var info = db.InformationShops.Find(infoId);
+                        if (info != null)
+                        {
+                            db.InformationShops.Remove(info);
+                        }
+                    }
+                }
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            db.InformationShops.Remove(InformationShop);
-            db.SaveChanges();
-            return RedirectToAction("InformationShop");
+            return Json(new { success = false });
         }
     }
 }

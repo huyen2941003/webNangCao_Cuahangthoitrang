@@ -1,14 +1,12 @@
 ﻿@model Baocao_chuyende.Models.Blog
 
 @{
-    ViewBag.Title = "CreateBlog";
+    ViewBag.Title = "Thêm bài viết mới";
     Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
 }
 
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Blog/</span> Bài viết</h4>
-
     <!-- Basic Layout & Basic with Icons -->
     @using (Html.BeginForm("CreateBlog", "Blog", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
@@ -18,23 +16,22 @@
             <div class="col-xxl">
                 <div class="card mb-4">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Thêm Bài viết mới</h5>
+                        <h5 class="mb-0">@ViewBag.Title</h5>
                     </div>
                     <div class="card-body">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <form>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-default-name">@Html.LabelFor(model => model.titleBlog)</label>
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">Tiêu đề bài viết</label>
                                 <div class="col-sm-10">
                                     @Html.EditorFor(model => model.titleBlog, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tiêu đề" } })
                                     @Html.ValidationMessageFor(model => model.titleBlog, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-default-name">@Html.LabelFor(model => model.textBlog)</label>
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">Contents</label>
                                 <div class="col-sm-10">
                                     @Html.TextAreaFor(x => x.textBlog, new { @class = "form-control", @id = "txtDetail" })
-                                    @Html.ValidationMessageFor(model => model.textBlog, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="row mb-3">

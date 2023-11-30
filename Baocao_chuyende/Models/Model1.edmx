@@ -67,6 +67,7 @@
           <Property Name="email" Type="nvarchar" MaxLength="200" />
           <Property Name="phone" Type="nvarchar" MaxLength="15" />
           <Property Name="textContactUs" Type="nvarchar" MaxLength="1000" />
+          <Property Name="isCheck" Type="bit" />
         </EntityType>
         <EntityType Name="InformationShop">
           <Key>
@@ -87,7 +88,7 @@
           <Property Name="idCategory" Type="int" />
           <Property Name="idBrands" Type="int" />
           <Property Name="idType" Type="int" />
-          <Property Name="description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="description" Type="nvarchar(max)" />
           <Property Name="cost" Type="float" />
           <Property Name="price" Type="float" />
           <Property Name="saleoff" Type="float" />
@@ -285,7 +286,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nameBrands" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="imageBrands" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Products" Relationship="Self.FK__Product__idBrand__68487DD7" FromRole="Brands" ToRole="Product" />
+          <NavigationProperty Name="Products" Relationship="Web_NangcaoModel.FK__Product__idBrand__68487DD7" FromRole="Brand" ToRole="Product" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -293,8 +294,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nameCategory" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Products" Relationship="Self.FK__Product__idCateg__6754599E" FromRole="Category" ToRole="Product" />
           <NavigationProperty Name="TypeProducts" Relationship="Self.FK__TypeProdu__idCat__5EBF139D" FromRole="Category" ToRole="TypeProduct" />
+          <NavigationProperty Name="Products" Relationship="Web_NangcaoModel.FK__Product__idCateg__6754599E" FromRole="Category" ToRole="Product" />
         </EntityType>
         <EntityType Name="Color">
           <Key>
@@ -303,16 +304,6 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nameColor" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ProductDetails" Relationship="Self.FK__ProductDe__idCol__7A672E12" FromRole="Color" ToRole="ProductDetails" />
-        </EntityType>
-        <EntityType Name="ContactU">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nameCustomer" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="textContactUs" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="InformationShop">
           <Key>
@@ -324,26 +315,6 @@
           <Property Name="hotline" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="wholesale" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Product">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nameProduct" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="idCategory" Type="Int32" />
-          <Property Name="idBrands" Type="Int32" />
-          <Property Name="idType" Type="Int32" />
-          <Property Name="description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="cost" Type="Double" />
-          <Property Name="price" Type="Double" />
-          <Property Name="saleoff" Type="Double" />
-          <Property Name="inventory" Type="Int32" />
-          <Property Name="sizechart" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Brand" Relationship="Self.FK__Product__idBrand__68487DD7" FromRole="Product" ToRole="Brands" />
-          <NavigationProperty Name="Category" Relationship="Self.FK__Product__idCateg__6754599E" FromRole="Product" ToRole="Category" />
-          <NavigationProperty Name="TypeProduct" Relationship="Self.FK__Product__idType__693CA210" FromRole="Product" ToRole="TypeProduct" />
-          <NavigationProperty Name="ProductDetails" Relationship="Self.FK__ProductDe__idPro__797309D9" FromRole="Product" ToRole="ProductDetails" />
-        </EntityType>
         <EntityType Name="ProductDetail">
           <Key>
             <PropertyRef Name="id" />
@@ -354,8 +325,8 @@
           <Property Name="idSize" Type="Int32" />
           <Property Name="image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Color" Relationship="Self.FK__ProductDe__idCol__7A672E12" FromRole="ProductDetails" ToRole="Color" />
-          <NavigationProperty Name="Product" Relationship="Self.FK__ProductDe__idPro__797309D9" FromRole="ProductDetails" ToRole="Product" />
           <NavigationProperty Name="Size" Relationship="Self.FK__ProductDe__idSiz__7B5B524B" FromRole="ProductDetails" ToRole="Size" />
+          <NavigationProperty Name="Product" Relationship="Web_NangcaoModel.FK__ProductDe__idPro__797309D9" FromRole="ProductDetail" ToRole="Product" />
         </EntityType>
         <EntityType Name="Size">
           <Key>
@@ -383,7 +354,7 @@
           <Property Name="nameType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="idCategory" Type="Int32" />
           <NavigationProperty Name="Category" Relationship="Self.FK__TypeProdu__idCat__5EBF139D" FromRole="TypeProduct" ToRole="Category" />
-          <NavigationProperty Name="Products" Relationship="Self.FK__Product__idType__693CA210" FromRole="TypeProduct" ToRole="Product" />
+          <NavigationProperty Name="Products" Relationship="Web_NangcaoModel.FK__Product__idType__693CA210" FromRole="TypeProduct" ToRole="Product" />
         </EntityType>
         <EntityType Name="VideoHome">
           <Key>
@@ -393,30 +364,6 @@
           <Property Name="text" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="urlVideo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
-        <Association Name="FK__Product__idBrand__68487DD7">
-          <End Role="Brands" Type="Self.Brand" Multiplicity="0..1" />
-          <End Role="Product" Type="Self.Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Brands">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="idBrands" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Product__idCateg__6754599E">
-          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
-          <End Role="Product" Type="Self.Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="idCategory" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__TypeProdu__idCat__5EBF139D">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="TypeProduct" Type="Self.TypeProduct" Multiplicity="*" />
@@ -441,30 +388,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Product__idType__693CA210">
-          <End Role="TypeProduct" Type="Self.TypeProduct" Multiplicity="0..1" />
-          <End Role="Product" Type="Self.Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TypeProduct">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="idType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ProductDe__idPro__797309D9">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="ProductDetails" Type="Self.ProductDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ProductDetails">
-              <PropertyRef Name="idProduct" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__ProductDe__idSiz__7B5B524B">
           <End Role="Size" Type="Self.Size" Multiplicity="0..1" />
           <End Role="ProductDetails" Type="Self.ProductDetail" Multiplicity="*" />
@@ -482,22 +405,12 @@
           <EntitySet Name="Brands" EntityType="Self.Brand" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Colors" EntityType="Self.Color" />
-          <EntitySet Name="ContactUs" EntityType="Self.ContactU" />
           <EntitySet Name="InformationShops" EntityType="Self.InformationShop" />
-          <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="ProductDetails" EntityType="Self.ProductDetail" />
           <EntitySet Name="Sizes" EntityType="Self.Size" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TypeProducts" EntityType="Self.TypeProduct" />
           <EntitySet Name="VideoHomes" EntityType="Self.VideoHome" />
-          <AssociationSet Name="FK__Product__idBrand__68487DD7" Association="Self.FK__Product__idBrand__68487DD7">
-            <End Role="Brands" EntitySet="Brands" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Product__idCateg__6754599E" Association="Self.FK__Product__idCateg__6754599E">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
           <AssociationSet Name="FK__TypeProdu__idCat__5EBF139D" Association="Self.FK__TypeProdu__idCat__5EBF139D">
             <End Role="Category" EntitySet="Categories" />
             <End Role="TypeProduct" EntitySet="TypeProducts" />
@@ -506,20 +419,30 @@
             <End Role="Color" EntitySet="Colors" />
             <End Role="ProductDetails" EntitySet="ProductDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Product__idType__693CA210" Association="Self.FK__Product__idType__693CA210">
-            <End Role="TypeProduct" EntitySet="TypeProducts" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ProductDe__idPro__797309D9" Association="Self.FK__ProductDe__idPro__797309D9">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="ProductDetails" EntitySet="ProductDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK__ProductDe__idSiz__7B5B524B" Association="Self.FK__ProductDe__idSiz__7B5B524B">
             <End Role="Size" EntitySet="Sizes" />
             <End Role="ProductDetails" EntitySet="ProductDetails" />
           </AssociationSet>
           <EntitySet Name="Accounts" EntityType="Web_NangcaoModel.Account" />
           <EntitySet Name="Blogs" EntityType="Web_NangcaoModel.Blog" />
+          <EntitySet Name="Products" EntityType="Web_NangcaoModel.Product" />
+          <AssociationSet Name="FK__Product__idBrand__68487DD7" Association="Web_NangcaoModel.FK__Product__idBrand__68487DD7">
+            <End Role="Brand" EntitySet="Brands" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__idCateg__6754599E" Association="Web_NangcaoModel.FK__Product__idCateg__6754599E">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__idType__693CA210" Association="Web_NangcaoModel.FK__Product__idType__693CA210">
+            <End Role="TypeProduct" EntitySet="TypeProducts" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductDe__idPro__797309D9" Association="Web_NangcaoModel.FK__ProductDe__idPro__797309D9">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductDetail" EntitySet="ProductDetails" />
+          </AssociationSet>
+          <EntitySet Name="ContactUs" EntityType="Web_NangcaoModel.ContactU" />
         </EntityContainer>
         <EntityType Name="Account">
           <Key>
@@ -542,6 +465,85 @@
           <Property Name="titleBlog" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="textBlog" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="imageTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameProduct" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="idCategory" Type="Int32" />
+          <Property Name="idBrands" Type="Int32" />
+          <Property Name="idType" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="cost" Type="Double" />
+          <Property Name="price" Type="Double" />
+          <Property Name="saleoff" Type="Double" />
+          <Property Name="inventory" Type="Int32" />
+          <Property Name="sizechart" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Brand" Relationship="Web_NangcaoModel.FK__Product__idBrand__68487DD7" FromRole="Product" ToRole="Brand" />
+          <NavigationProperty Name="Category" Relationship="Web_NangcaoModel.FK__Product__idCateg__6754599E" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="TypeProduct" Relationship="Web_NangcaoModel.FK__Product__idType__693CA210" FromRole="Product" ToRole="TypeProduct" />
+          <NavigationProperty Name="ProductDetails" Relationship="Web_NangcaoModel.FK__ProductDe__idPro__797309D9" FromRole="Product" ToRole="ProductDetail" />
+        </EntityType>
+        <Association Name="FK__Product__idBrand__68487DD7">
+          <End Type="Web_NangcaoModel.Brand" Role="Brand" Multiplicity="0..1" />
+          <End Type="Web_NangcaoModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="idBrands" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__idCateg__6754599E">
+          <End Type="Web_NangcaoModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="Web_NangcaoModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="idCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__idType__693CA210">
+          <End Type="Web_NangcaoModel.TypeProduct" Role="TypeProduct" Multiplicity="0..1" />
+          <End Type="Web_NangcaoModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeProduct">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="idType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductDe__idPro__797309D9">
+          <End Type="Web_NangcaoModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="Web_NangcaoModel.ProductDetail" Role="ProductDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProductDetail">
+              <PropertyRef Name="idProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ContactU">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameCustomer" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="textContactUs" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="isCheck" Type="Boolean" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -584,17 +586,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ContactUs">
-            <EntityTypeMapping TypeName="Web_NangcaoModel.ContactU">
-              <MappingFragment StoreEntitySet="ContactUs">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="nameCustomer" ColumnName="nameCustomer" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="textContactUs" ColumnName="textContactUs" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="InformationShops">
             <EntityTypeMapping TypeName="Web_NangcaoModel.InformationShop">
               <MappingFragment StoreEntitySet="InformationShop">
@@ -603,23 +594,6 @@
                 <ScalarProperty Name="zalo" ColumnName="zalo" />
                 <ScalarProperty Name="hotline" ColumnName="hotline" />
                 <ScalarProperty Name="wholesale" ColumnName="wholesale" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="Web_NangcaoModel.Product">
-              <MappingFragment StoreEntitySet="Product">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="nameProduct" ColumnName="nameProduct" />
-                <ScalarProperty Name="idCategory" ColumnName="idCategory" />
-                <ScalarProperty Name="idBrands" ColumnName="idBrands" />
-                <ScalarProperty Name="idType" ColumnName="idType" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="cost" ColumnName="cost" />
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="saleoff" ColumnName="saleoff" />
-                <ScalarProperty Name="inventory" ColumnName="inventory" />
-                <ScalarProperty Name="sizechart" ColumnName="sizechart" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -691,6 +665,35 @@
                 <ScalarProperty Name="imageTitle" ColumnName="imageTitle" />
                 <ScalarProperty Name="textBlog" ColumnName="textBlog" />
                 <ScalarProperty Name="titleBlog" ColumnName="titleBlog" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="Web_NangcaoModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="sizechart" ColumnName="sizechart" />
+                <ScalarProperty Name="inventory" ColumnName="inventory" />
+                <ScalarProperty Name="saleoff" ColumnName="saleoff" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="idType" ColumnName="idType" />
+                <ScalarProperty Name="idBrands" ColumnName="idBrands" />
+                <ScalarProperty Name="idCategory" ColumnName="idCategory" />
+                <ScalarProperty Name="nameProduct" ColumnName="nameProduct" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactUs">
+            <EntityTypeMapping TypeName="Web_NangcaoModel.ContactU">
+              <MappingFragment StoreEntitySet="ContactUs">
+                <ScalarProperty Name="isCheck" ColumnName="isCheck" />
+                <ScalarProperty Name="textContactUs" ColumnName="textContactUs" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="nameCustomer" ColumnName="nameCustomer" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

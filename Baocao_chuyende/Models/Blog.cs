@@ -11,13 +11,11 @@ namespace Baocao_chuyende.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.Web.Mvc;
-
+    
     public partial class Blog
     {
         public int id { get; set; }
         public string titleBlog { get; set; }
-        [AllowHtml]
         public string textBlog { get; set; }
         public string imageTitle { get; set; }
     }

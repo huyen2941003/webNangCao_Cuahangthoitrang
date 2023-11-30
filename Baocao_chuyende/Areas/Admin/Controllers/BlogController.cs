@@ -1,4 +1,5 @@
 ﻿using Baocao_chuyende.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
@@ -6,23 +7,24 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace Baocao_chuyende.Areas.Admin.Controllers
 {
     [Authorize]
     public class BlogController : Controller
     {
-        public class BlogViewModel
-        {
-            public List<Blog> Blogs { get; set; }
-        }
-
         Web_NangcaoEntities db = new Web_NangcaoEntities();
         // GET: Admin/Blog
-        public ActionResult Blog()
+        public ActionResult Index(int? page)
         {
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
             List<Blog> blogs = db.Blogs.ToList();
-            return View(blogs);
+            IPagedList<Blog> paged = blogs.ToPagedList(pageNumber, pageSize);
+
+            return View(paged);
         }
 
         [HttpGet]
@@ -49,7 +51,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
                 images.imageTitle = _FileName;
                 db.SaveChanges();
             }
-            return RedirectToAction("Blog");
+            return RedirectToAction("Index");
         }
         
         public ActionResult EditBlog(int id)
@@ -92,37 +94,44 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
                     existingblog.imageTitle = _FileName;
                 }
                 db.SaveChanges();
-                return RedirectToAction("Blog");
+                return RedirectToAction("Index");
             }
 
             return View(blog);
         }
-        public ActionResult DeleteBlog(int id)
+        public ActionResult Delete(int id)
         {
             var blogs = db.Blogs.Find(id);
-
-            if (blogs == null)
+            if (blogs != null)
             {
-                return HttpNotFound();
+                db.Blogs.Remove(blogs);
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            return View(blogs);
+            return Json(new { success = false });
         }
+
         [HttpPost]
-        [ActionName("DeleteBlog")]
-        public ActionResult DeleteConfirmedBlog(int id)
+        public ActionResult DeleteAll(string ids)
         {
-            var blogs = db.Blogs.Find(id);
-
-            if (blogs == null)
+            if (!string.IsNullOrEmpty(ids))
             {
-                return HttpNotFound();
+                var items = ids.Split(',');
+                foreach (var id in items)
+                {
+                    if (int.TryParse(id, out int blogtId))
+                    {
+                        var blogs = db.Blogs.Find(blogtId);
+                        if (blogs != null)
+                        {
+                            db.Blogs.Remove(blogs);
+                        }
+                    }
+                }
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            db.Blogs.Remove(blogs);
-            db.SaveChanges();
-            return RedirectToAction("Blog");
+            return Json(new { success = false });
         }
-
     }
 }

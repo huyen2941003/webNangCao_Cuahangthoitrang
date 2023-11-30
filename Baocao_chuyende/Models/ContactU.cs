@@ -19,5 +19,6 @@ namespace Baocao_chuyende.Models
         public string email { get; set; }
         public string phone { get; set; }
         public string textContactUs { get; set; }
+        public Nullable<bool> isCheck { get; set; }
     }
 }

@@ -1,14 +1,11 @@
 ﻿@model Baocao_chuyende.Models.InformationShop
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Chỉnh sửa thông tin liên hệ";
     Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
 }
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Danh mục/</span> Sửa danh mục</h4>
-
-    <!-- Basic Layout & Basic with Icons -->
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
@@ -17,37 +14,37 @@
             <div class="col-xxl">
                 <div class="card mb-4">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Sửa danh mục</h5>
+                        <h5 class="mb-0">@ViewBag.Title</h5>
                     </div>
                     <div class="card-body">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         @Html.HiddenFor(model => model.id)
                         <form>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-default-name">@Html.LabelFor(model => model.address)</label>
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">Đia chỉ</label>
                                 <div class="col-sm-10">
-                                    @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên danh mục" } })
+                                    @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập địa chỉ cửa hàng" } })
                                     @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-default-name">@Html.LabelFor(model => model.hotline)</label>
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">Hotline</label>
                                 <div class="col-sm-10">
-                                    @Html.EditorFor(model => model.hotline, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên danh mục" } })
+                                    @Html.EditorFor(model => model.hotline, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập hotline" } })
                                     @Html.ValidationMessageFor(model => model.hotline, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-default-name">@Html.LabelFor(model => model.zalo)</label>
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">ZALO</label>
                                 <div class="col-sm-10">
-                                    @Html.EditorFor(model => model.zalo, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên danh mục" } })
+                                    @Html.EditorFor(model => model.zalo, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập số điện thoại zalo" } })
                                     @Html.ValidationMessageFor(model => model.zalo, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-default-name">@Html.LabelFor(model => model.wholesale)</label>
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">Link nhóm sỉ</label>
                                 <div class="col-sm-10">
-                                    @Html.EditorFor(model => model.wholesale, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên danh mục" } })
+                                    @Html.EditorFor(model => model.wholesale, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Gán link nhóm sỉ" } })
                                     @Html.ValidationMessageFor(model => model.wholesale, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -64,5 +61,5 @@
     }
 </div>
 <div class="buy-now">
-    <a href="@Url.Action("InformationShop", "InformationShop")" class="btn btn-danger btn-buy-now">Quay lại</a>
+    <a href="@Url.Action("Index", "InformationShop")" class="btn btn-danger btn-buy-now">Quay lại</a>
 </div>

@@ -17,8 +17,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
         }
 
         Web_NangcaoEntities db = new Web_NangcaoEntities();
-        // GET: Admin/SizeColor
-        public ActionResult SizeAndColor()
+        public ActionResult Index()
         {
             List<Size> sizes = db.Sizes.ToList();
             List<Color> colors = db.Colors.ToList();
@@ -45,7 +44,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
             {
                 db.Sizes.Add(size);
                 db.SaveChanges();
-                return RedirectToAction("SizeAndColor");
+                return RedirectToAction("Index");
             }
             return View(size);
         }
@@ -74,37 +73,23 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
 
                 existingsize.nameSize = size.nameSize;
                 db.SaveChanges();
-                return RedirectToAction("SizeAndColor");
+                return RedirectToAction("Index");
             }
 
             return View(size);
         }
         public ActionResult DeleteSize(int id)
         {
-            var size = db.Sizes.Find(id);
-
-            if (size == null)
+            var sizes = db.Sizes.Find(id);
+            if (sizes != null)
             {
-                return HttpNotFound();
+                db.Sizes.Remove(sizes);
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            return View(size);
+            return Json(new { success = false });
         }
-        [HttpPost]
-        [ActionName("DeleteSize")]
-        public ActionResult DeleteConfirmedSize(int id)
-        {
-            var size = db.Sizes.Find(id);
 
-            if (size == null)
-            {
-                return HttpNotFound();
-            }
-
-            db.Sizes.Remove(size);
-            db.SaveChanges();
-            return RedirectToAction("SizeAndColor");
-        }
         [HttpGet]
         public ActionResult CreateColor()
         {
@@ -118,7 +103,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
             {
                 db.Colors.Add(color);
                 db.SaveChanges();
-                return RedirectToAction("SizeAndColor");
+                return RedirectToAction("Index");
             }
             return View(color);
         }
@@ -147,36 +132,21 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
 
                 existingcolor.nameColor = color.nameColor;
                 db.SaveChanges();
-                return RedirectToAction("SizeAndColor");
+                return RedirectToAction("Index");
             }
 
             return View(color);
         }
         public ActionResult DeleteColor(int id)
         {
-            var color = db.Colors.Find(id);
-
-            if (color == null)
+            var colors = db.Colors.Find(id);
+            if (colors != null)
             {
-                return HttpNotFound();
+                db.Colors.Remove(colors);
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            return View(color);
-        }
-        [HttpPost]
-        [ActionName("DeleteColor")]
-        public ActionResult DeleteConfirmedColor(int id)
-        {
-            var color = db.Colors.Find(id);
-
-            if (color == null)
-            {
-                return HttpNotFound();
-            }
-
-            db.Colors.Remove(color);
-            db.SaveChanges();
-            return RedirectToAction("SizeAndColor");
+            return Json(new { success = false });
         }
     }
 }

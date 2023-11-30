@@ -8,8 +8,6 @@
 }
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Sản phẩm /</span> Chi tiết sản phẩm</h4>
-    <!-- Basic Bootstrap Table -->
     <div class="card">
         <h5 class="card-header">Danh sách chi tiết sản phẩm</h5>
         <div class="table-responsive text-nowrap">
@@ -17,7 +15,7 @@
                 <thead>
                     <tr>
                         <th>
-                            Mã
+                            STT
                         </th>
                         <th>
                             Màu
@@ -73,7 +71,7 @@
         </div>
     </div>
     <div style="text-align: center; margin: 30px">
-        @Html.PagedListPager(Model, page => Url.Action("ProductDetail", new { page }), new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
     </div>
     <style>
         .pagination a {

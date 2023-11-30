@@ -1,9 +1,11 @@
 ﻿using Baocao_chuyende.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace Baocao_chuyende.Areas.Admin.Controllers
 {
@@ -12,10 +14,15 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
     {
         Web_NangcaoEntities db = new Web_NangcaoEntities();
         // GET: Admin/TypeProduct
-        public ActionResult TypeProduct()
+        public ActionResult Index(int? page)
         {
-            List<TypeProduct> typeProduct = db.TypeProducts.ToList();
-            return View(typeProduct);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            List<TypeProduct> types = db.TypeProducts.ToList();
+            IPagedList<TypeProduct> paged = types.ToPagedList(pageNumber, pageSize);
+
+            return View(paged);
         }
         [HttpGet]
         public ActionResult Create()
@@ -33,7 +40,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
             {
                 db.TypeProducts.Add(typeProduct);
                 db.SaveChanges();
-                return RedirectToAction("TypeProduct");
+                return RedirectToAction("Index");
             }
             var categories = db.Categories.ToList();
             ViewBag.Categories = new SelectList(categories, "id", "nameCategory");
@@ -69,36 +76,70 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
                 existingTypeProduct.idCategory = typeProduct.idCategory;
 
                 db.SaveChanges();
-                return RedirectToAction("TypeProduct");
+                return RedirectToAction("Index");
             }
             var categories = db.Categories.ToList();
             ViewBag.Categories = new SelectList(categories, "id", "nameCategory");
 
             return View(typeProduct);
         }
+        //public ActionResult Delete(int id)
+        //{
+        //    var typeProduct = db.TypeProducts.Find(id);
+
+        //    if (typeProduct == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+
+        //    return View(typeProduct);
+        //}
+        //[HttpPost]
+        //[ActionName("Delete")]
+        //public ActionResult DeleteConfirmedType(int id)
+        //{
+        //    var typeProduct = db.TypeProducts.Find(id);
+        //    if (typeProduct == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    db.TypeProducts.Remove(typeProduct);
+        //    db.SaveChanges();
+        //    return RedirectToAction("TypeProduct");
+        //}
         public ActionResult Delete(int id)
         {
-            var typeProduct = db.TypeProducts.Find(id);
-
-            if (typeProduct == null)
+            var types = db.TypeProducts.Find(id);
+            if (types != null)
             {
-                return HttpNotFound();
+                db.TypeProducts.Remove(types);
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            return View(typeProduct);
+            return Json(new { success = false });
         }
+
         [HttpPost]
-        [ActionName("Delete")]
-        public ActionResult DeleteConfirmedType(int id)
+        public ActionResult DeleteAll(string ids)
         {
-            var typeProduct = db.TypeProducts.Find(id);
-            if (typeProduct == null)
+            if (!string.IsNullOrEmpty(ids))
             {
-                return HttpNotFound();
+                var items = ids.Split(',');
+                foreach (var id in items)
+                {
+                    if (int.TryParse(id, out int typeId))
+                    {
+                        var types = db.TypeProducts.Find(typeId);
+                        if (types != null)
+                        {
+                            db.TypeProducts.Remove(types);
+                        }
+                    }
+                }
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-            db.TypeProducts.Remove(typeProduct);
-            db.SaveChanges();
-            return RedirectToAction("TypeProduct");
+            return Json(new { success = false });
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using Baocao_chuyende.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace Baocao_chuyende.Areas.Admin.Controllers
 {
@@ -14,10 +16,15 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
         
         Web_NangcaoEntities db = new Web_NangcaoEntities();
         // GET: Admin/Brands
-        public ActionResult Brand()
+        public ActionResult Index(int? page)
         {
-            List<Brand> brand = db.Brands.ToList();
-            return View(brand);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            List<Brand> brands = db.Brands.ToList();
+            IPagedList<Brand> paged = brands.ToPagedList(pageNumber, pageSize);
+
+            return View(paged);
         }
         [HttpGet]
         public ActionResult Create()
@@ -43,7 +50,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
                 images.imageBrands = _FileName;
                 db.SaveChanges();
             }
-            return RedirectToAction("Brand");
+            return RedirectToAction("Index");
         }
         public ActionResult Edit(int id)
         {
@@ -84,38 +91,45 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
                     existingBrand.imageBrands = _FileName;
                 }
                 db.SaveChanges();
-                return RedirectToAction("Brand");
+                return RedirectToAction("Index");
             }
 
             return View(brand);
         }
-
 
         public ActionResult Delete(int id)
         {
-            var brand = db.Brands.Find(id);
-
-            if (brand == null)
+            var brands = db.Brands.Find(id);
+            if (brands != null)
             {
-                return HttpNotFound();
+                db.Brands.Remove(brands);
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            return View(brand);
+            return Json(new { success = false });
         }
+
         [HttpPost]
-        [ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteAll(string ids)
         {
-            var brand = db.Brands.Find(id);
-
-            if (brand == null)
+            if (!string.IsNullOrEmpty(ids))
             {
-                return HttpNotFound();
+                var items = ids.Split(',');
+                foreach (var id in items)
+                {
+                    if (int.TryParse(id, out int brandId))
+                    {
+                        var brands = db.Brands.Find(brandId);
+                        if (brands != null)
+                        {
+                            db.Brands.Remove(brands);
+                        }
+                    }
+                }
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            db.Brands.Remove(brand);
-            db.SaveChanges();
-            return RedirectToAction("Brand");
+            return Json(new { success = false });
         }
     }
 }

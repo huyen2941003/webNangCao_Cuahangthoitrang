@@ -16,7 +16,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
     {
         Web_NangcaoEntities db = new Web_NangcaoEntities();
         // GET: Admin/ProductDetails
-        public ActionResult ProductDetail(int? page)
+        public ActionResult Index(int? page)
         {
             int pageSize = 10;
             int pageNumber = (page ?? 1);
@@ -46,7 +46,6 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(ProductDetail productDetail, HttpPostedFileBase upLoad)
         {
-
             db.ProductDetails.Add(productDetail);
             db.SaveChanges();
 
@@ -72,6 +71,66 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
             ViewBag.Colors = new SelectList(color, "id", "nameColor");
 
             return RedirectToAction("ProductDetail");
+        }
+        public ActionResult Edit(int id)
+        {
+            var brand = db.ProductDetails.Find(id);
+
+            var product = db.Products.ToList();
+            ViewBag.Products = new SelectList(product, "id", "nameProduct");
+            ViewData["idProduct"] = new SelectList(product, "id", "nameProduct");
+
+            var size = db.Sizes.ToList();
+            ViewBag.Sizes = new SelectList(size, "id", "nameSize");
+            ViewData["idSize"] = new SelectList(size, "id", "nameSize");
+
+            var color = db.Colors.ToList();
+            ViewBag.Colors = new SelectList(color, "id", "nameColor");
+            ViewData["idColor"] = new SelectList(color, "id", "nameColor");
+
+            if (brand == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(brand);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(ProductDetail productDetail, HttpPostedFileBase upLoad)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingProductDetail = db.ProductDetails.Find(productDetail.id);
+                if (existingProductDetail == null)
+                {
+                    return HttpNotFound();
+                }
+
+                if (upLoad != null && upLoad.ContentLength > 0)
+                {
+                    if (!string.IsNullOrEmpty(existingProductDetail.image))
+                    {
+                        var imagePath = Path.Combine(Server.MapPath("~/UpLoad/Product"), existingProductDetail.image);
+                        if (System.IO.File.Exists(imagePath))
+                        {
+                            System.IO.File.Delete(imagePath);
+                        }
+                    }
+                    string _FileName = "pr" + existingProductDetail.id.ToString() + Path.GetExtension(upLoad.FileName);
+                    string _path = Path.Combine(Server.MapPath("~/UpLoad/Product"), _FileName);
+                    upLoad.SaveAs(_path);
+                    existingProductDetail.image = _FileName;
+                }
+                existingProductDetail.idProduct = productDetail.idProduct;
+                existingProductDetail.idColor = productDetail.idColor;
+                existingProductDetail.idSize = productDetail.idSize;
+
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(productDetail);
         }
     }
 }

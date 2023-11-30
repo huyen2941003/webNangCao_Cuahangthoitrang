@@ -1,6 +1,8 @@
 ﻿using Baocao_chuyende.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,72 +15,63 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
         // GET: Admin/ContactUs
         Web_NangcaoEntities db = new Web_NangcaoEntities();
         // GET: Admin/Video
-        public ActionResult ContactUs()
+        public ActionResult Index(int? page)
         {
-            List<ContactU> video = db.ContactUs.ToList();
-            return View(video);
-        }
-        
-        public ActionResult Edit(int id)
-        {
-            var video = db.ContactUs.Find(id);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
 
-            if (video == null)
-            {
-                return HttpNotFound();
-            }
+            List<ContactU> contactUs = db.ContactUs.OrderBy(c => c.isCheck == true ? 1 : 0).ToList();
+            IPagedList<ContactU> paged = contactUs.ToPagedList(pageNumber, pageSize);
 
-            return View(video);
+            return View(paged);
         }
 
-        [HttpPost]
-        public ActionResult Edit(ContactU video)
-        {
-            if (ModelState.IsValid)
-            {
-                var existingvideo = db.ContactUs.Find(video.id);
-                if (existingvideo == null)
-                {
-                    return HttpNotFound();
-                }
-
-                existingvideo.id = video.id;
-                existingvideo.nameCustomer = video.nameCustomer;
-                existingvideo.email = video.email;
-                existingvideo.phone = video.phone;
-                existingvideo.textContactUs = video.textContactUs;
-
-                db.SaveChanges();
-                return RedirectToAction("ContactUs");
-            }
-
-            return View(video);
-        }
         public ActionResult Delete(int id)
         {
-            var video = db.ContactUs.Find(id);
-
-            if (video == null)
+            var news = db.ContactUs.Find(id);
+            if (news != null)
             {
-                return HttpNotFound();
+                db.ContactUs.Remove(news);
+                db.SaveChanges();
+                return Json(new { success = true });
             }
+            return Json(new { success = false });
+        }
 
-            return View(video);
+        [HttpPost]
+        public ActionResult DeleteAll(string ids)
+        {
+            if (!string.IsNullOrEmpty(ids))
+            {
+                var items = ids.Split(',');
+                foreach (var id in items)
+                {
+                    if (int.TryParse(id, out int categoryId))
+                    {
+                        var category = db.ContactUs.Find(categoryId);
+                        if (category != null)
+                        {
+                            db.ContactUs.Remove(category);
+                        }
+                    }
+                }
+                db.SaveChanges();
+                return Json(new { success = true });
+            }
+            return Json(new { success = false });
         }
         [HttpPost]
-        [ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult IsActive(int id)
         {
             var video = db.ContactUs.Find(id);
-
-            if (video == null)
+            if (video != null)
             {
-                return HttpNotFound();
+                video.isCheck = !video.isCheck;
+                db.Entry(video).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json(new { success = true, isActive = video.isCheck });
             }
-
-            db.ContactUs.Remove(video);
-            db.SaveChanges();
-            return RedirectToAction("ContactUs");
+            return Json(new { success = false });
         }
     }
 }

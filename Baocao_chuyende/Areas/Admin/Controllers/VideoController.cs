@@ -1,9 +1,11 @@
 ﻿using Baocao_chuyende.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace Baocao_chuyende.Areas.Admin.Controllers
 {
@@ -12,10 +14,15 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
     {
         Web_NangcaoEntities db = new Web_NangcaoEntities();
         // GET: Admin/Video
-        public ActionResult VideoHome()
+        public ActionResult Index(int? page)
         {
-            List<VideoHome> video = db.VideoHomes.ToList();
-            return View(video);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            List<VideoHome> videos = db.VideoHomes.ToList();
+            IPagedList<VideoHome> paged = videos.ToPagedList(pageNumber, pageSize);
+
+            return View(paged);
         }
         [HttpGet]
         public ActionResult Create()
@@ -30,7 +37,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
             {
                 db.VideoHomes.Add(video);
                 db.SaveChanges();
-                return RedirectToAction("VideoHome");
+                return RedirectToAction("Index");
             }
             return View(video);
         }
@@ -60,36 +67,44 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
                 existingvideo.text = video.text;
                 existingvideo.urlVideo = video.urlVideo;
                 db.SaveChanges();
-                return RedirectToAction("VideoHome");
+                return RedirectToAction("Index");
             }
 
             return View(video);
         }
         public ActionResult Delete(int id)
         {
-            var video = db.VideoHomes.Find(id);
-
-            if (video == null)
+            var videos = db.VideoHomes.Find(id);
+            if (videos != null)
             {
-                return HttpNotFound();
+                db.VideoHomes.Remove(videos);
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            return View(video);
+            return Json(new { success = false });
         }
+
         [HttpPost]
-        [ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteAll(string ids)
         {
-            var video = db.VideoHomes.Find(id);
-
-            if (video == null)
+            if (!string.IsNullOrEmpty(ids))
             {
-                return HttpNotFound();
+                var items = ids.Split(',');
+                foreach (var id in items)
+                {
+                    if (int.TryParse(id, out int brandId))
+                    {
+                        var videos = db.VideoHomes.Find(brandId);
+                        if (videos != null)
+                        {
+                            db.VideoHomes.Remove(videos);
+                        }
+                    }
+                }
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            db.VideoHomes.Remove(video);
-            db.SaveChanges();
-            return RedirectToAction("VideoHome");
+            return Json(new { success = false });
         }
     }
 }

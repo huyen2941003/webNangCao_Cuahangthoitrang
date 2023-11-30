@@ -121,7 +121,7 @@
                     <li class="menu-item active">
                         <a href="@Url.Action("Index", "Home")" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Dashboard</div>
+                            <div data-i18n="Analytics">Trang chủ</div>
                         </a>
                     </li>
 
@@ -137,12 +137,12 @@
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item">
-                                <a href="@Url.Action("Category", "Category")" class="menu-link">
+                                <a href="@Url.Action("Index", "Category")" class="menu-link">
                                     <div data-i18n="Account">Danh mục</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="@Url.Action("TypeProduct", "TypeProduct")" class="menu-link">
+                                <a href="@Url.Action("Index", "TypeProduct")" class="menu-link">
                                     <div data-i18n="Notifications">Phân loại</div>
                                 </a>
                             </li>
@@ -155,60 +155,48 @@
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item">
-                                <a href="@Url.Action("Product", "Product")" class="menu-link">
+                                <a href="@Url.Action("Index", "Product")" class="menu-link">
                                     <div data-i18n="Basic">Sản phẩm</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="@Url.Action("SizeAndColor", "SizeColor")" class="menu-link">
+                                <a href="@Url.Action("Index", "SizeColor")" class="menu-link">
                                     <div data-i18n="Basic">Màu sắc - Kích thước</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="@Url.Action("ProductDetail", "ProductDetail")" class="menu-link">
+                                <a href="@Url.Action("Index", "ProductDetail")" class="menu-link">
                                     <div data-i18n="Basic">Chi tiết sản phẩm</div>
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li class="menu-item">
-                        <a href="@Url.Action("Brand", "Brands")" class="menu-link">
+                        <a href="@Url.Action("Index", "Brands")" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
                             <div data-i18n="Tables">Nhãn hàng</div>
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <a href="@Url.Action("Index", "Blog")" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                            <div data-i18n="Misc">Blog</div>
+                            <div data-i18n="Tables">Bài viết</div>
                         </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="@Url.Action("Blog", "Blog")" class="menu-link">
-                                    <div data-i18n="Basic">Bài viết</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="@Url.Action("BlogDetails", "Blog")" class="menu-link">
-                                    <div data-i18n="Basic">Chi tiết</div>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                     <li class="menu-item">
-                        <a href="@Url.Action("VideoHome", "Video")" class="menu-link">
+                        <a href="@Url.Action("Index", "Video")" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
                             <div data-i18n="Tables">Video</div>
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="@Url.Action("InformationShop", "InformationShop")" class="menu-link">
+                        <a href="@Url.Action("Index", "InformationShop")" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
                             <div data-i18n="Tables">Thông tin liên hệ</div>
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="@Url.Action("ContactUs", "ContactUs")" class="menu-link">
+                        <a href="@Url.Action("Index", "ContactUs")" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
                             <div data-i18n="Tables">Tin nhắn</div>
                         </a>
@@ -242,15 +230,7 @@
 
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
                         <!-- Search -->
-                        <div class="navbar-nav align-items-center">
-                            <div class="nav-item d-flex align-items-center">
-                                <i class="bx bx-search fs-4 lh-0"></i>
-                                <input type="text"
-                                       class="form-control border-0 shadow-none"
-                                       placeholder="Search..."
-                                       aria-label="Search..." />
-                            </div>
-                        </div>
+                        
                         <!-- /Search -->
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -259,7 +239,7 @@
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="../assets/img/avatars/1.png" class="w-px-40 h-auto rounded-circle" />
+                                        <img src="~/UpLoad/User/huyen.jpg" class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -268,11 +248,11 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="../assets/img/avatars/1.png" class="w-px-40 h-auto rounded-circle" />
+                                                        <img src="~/UpLoad/User/huyen.jpg" class="w-px-40 h-auto rounded-circle" />
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">John Doe</span>
+                                                    <span class="fw-semibold d-block">Thu Huyền</span>
                                                     <small class="text-muted">Admin</small>
                                                 </div>
                                             </div>
@@ -282,15 +262,9 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="@Url.Action("Index", "InformationShop")">
                                             <i class="bx bx-user me-2"></i>
                                             <span class="align-middle">Thông tin shop</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="bx bx-cog me-2"></i>
-                                            <span class="align-middle">Cài đặt</span>
                                         </a>
                                     </li>
                                     <li>

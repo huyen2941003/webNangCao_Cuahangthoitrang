@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using PagedList.Mvc;
+using System.Net;
+using System.Web.UI;
 
 namespace Baocao_chuyende.Areas.Admin.Controllers
 {
@@ -16,15 +18,20 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
     {
         Web_NangcaoEntities db = new Web_NangcaoEntities();
         // GET: Admin/Product
-        public ActionResult Product(int? page)
+        public ActionResult Index(string SearchText, int? page)
         {
             int pageSize = 10;
             int pageNumber = (page ?? 1);
 
-            List<Product> products = db.Products.ToList();
-            IPagedList<Product> pagedProducts = products.ToPagedList(pageNumber, pageSize);
+            IQueryable<Product> products = db.Products;
+            if (!string.IsNullOrEmpty(SearchText))
+            {
+                products = products.Where(x => x.nameProduct.Contains(SearchText));
+            }
+            IPagedList<Product> pagedList = products.OrderByDescending(x => x.id).ToPagedList(pageNumber, pageSize);
 
-            return View(pagedProducts);
+            return View(pagedList);
+
         }
 
         [HttpGet]
@@ -53,7 +60,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
                 product.saleoff = ((product.cost - product.price) / product.cost) * 100;
                 db.Products.Add(product);
                 db.SaveChanges();
-                return RedirectToAction("Product");
+                return RedirectToAction("Index");
             }
 
             var categories = db.Categories.ToList();
@@ -112,7 +119,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
                 existingProduct.inventory = product.inventory;
 
                 db.SaveChanges();
-                return RedirectToAction("Product");
+                return RedirectToAction("Index");
             }
 
             return View(product);
@@ -120,28 +127,36 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
         public ActionResult Delete(int id)
         {
             var product = db.Products.Find(id);
-
-            if (product == null)
+            if (product != null)
             {
-                return HttpNotFound();
+                db.Products.Remove(product);
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            return View(product);
+            return Json(new { success = false });
         }
+
         [HttpPost]
-        [ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteAll(string ids)
         {
-            var product = db.Products.Find(id);
-
-            if (product == null)
+            if (!string.IsNullOrEmpty(ids))
             {
-                return HttpNotFound();
+                var items = ids.Split(',');
+                foreach (var id in items)
+                {
+                    if (int.TryParse(id, out int productId))
+                    {
+                        var product = db.Products.Find(productId);
+                        if (product != null)
+                        {
+                            db.Products.Remove(product);
+                        }
+                    }
+                }
+                db.SaveChanges();
+                return Json(new { success = true });
             }
-
-            db.Products.Remove(product);
-            db.SaveChanges();
-            return RedirectToAction("Product");
+            return Json(new { success = false });
         }
 
         public JsonResult GetTypesByCategory(int categoryId)
@@ -155,6 +170,5 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
                 .ToList();
             return Json(types, JsonRequestBehavior.AllowGet);
         }
-
     }
 }

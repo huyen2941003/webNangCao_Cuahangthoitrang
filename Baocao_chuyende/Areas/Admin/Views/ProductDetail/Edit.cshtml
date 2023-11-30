@@ -1,13 +1,13 @@
-﻿@model Baocao_chuyende.Models.Brand
+﻿@model Baocao_chuyende.Models.ProductDetail
 
 @{
-    ViewBag.Title = "Chỉnh sửa nhãn hàng";
+    ViewBag.Title = "Chỉnh sửa sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
 }
 
 <div class="container-xxl flex-grow-1 container-p-y">
     <!-- Basic Layout & Basic with Icons -->
-    @using (Html.BeginForm("Edit", "Brands", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Edit", "ProductDetail", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="row">
@@ -22,19 +22,30 @@
                         @Html.HiddenFor(model => model.id)
                         <form>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-default-name">Tên nhãn hàng</label>
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">Tên sản phẩm</label>
                                 <div class="col-sm-10">
-                                    @Html.EditorFor(model => model.nameBrands, new { htmlAttributes = new { @class = "form-control", @id = "basic-default-name", @placeholder = "Nhập tên nhãn hàng" } })
-                                    @Html.ValidationMessageFor(model => model.nameBrands, "", new { @class = "text-danger" })
+                                    @Html.DropDownList("idProduct", null, htmlAttributes: new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label">Logo nhãn hàng</label>
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">Màu</label>
+                                <div class="col-sm-10">
+                                    @Html.DropDownList("idSize", null, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="basic-default-name">Size</label>
+                                <div class="col-sm-10">
+                                    @Html.DropDownList("idColor", null, htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Ảnh</label>
                                 <div class="col-sm-10">
                                     <input type="file" name="upLoad" id="upLoad" accept="image/*" onchange="showImage(this); required " />
-                                    @if (!string.IsNullOrEmpty(Model.imageBrands))
+                                    @if (!string.IsNullOrEmpty(Model.image))
                                     {
-                                        <img id="selectedImage" src="@Url.Content($"~/UpLoad/Brands/{Model.imageBrands}")" alt="Ảnh được chọn" style="max-width: 200px; max-height: 200px; margin-top: 10px;" />
+                                        <img id="selectedImage" src="@Url.Content($"~/UpLoad/Product/{Model.image}")" alt="Ảnh được chọn" style="max-width: 200px; max-height: 200px; margin-top: 10px;" />
                                     }
                                     else
                                     {
@@ -55,7 +66,7 @@
     }
 </div>
 <div class="buy-now">
-    <a href="@Url.Action("Index", "Brands")" class="btn btn-danger btn-buy-now">Quay lại</a>
+    <a href="@Url.Action("Index", "ProductDetails")" class="btn btn-danger btn-buy-now">Quay lại</a>
 </div>
 <script>
     function showImage(input) {
@@ -71,5 +82,4 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-
 </script>
