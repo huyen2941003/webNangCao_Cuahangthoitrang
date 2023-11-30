@@ -70,7 +70,7 @@ namespace Baocao_chuyende.Areas.Admin.Controllers
             var color = db.Colors.ToList();
             ViewBag.Colors = new SelectList(color, "id", "nameColor");
 
-            return RedirectToAction("ProductDetail");
+            return RedirectToAction("Index");
         }
         public ActionResult Edit(int id)
         {

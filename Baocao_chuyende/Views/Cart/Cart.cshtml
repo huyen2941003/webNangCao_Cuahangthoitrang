@@ -105,13 +105,21 @@
         <tbody>
             @{
                 List<Baocao_chuyende.Models.CartModel> lstCart = (List<Baocao_chuyende.Models.CartModel>)Session["Cart"];
+                int totalQuantity = 0;
+                double totalAmount = 0;
+
+                if (lstCart != null)
+                {
+                    totalQuantity = lstCart.Sum(item => item.Quantity);
+                    totalAmount = lstCart.Sum(item => item.Amount);
+                }
                 if (lstCart != null)
                 {
                     for (int i = 0; i < lstCart.Count(); i++)
                     {
-                        <tr class="row-items">
+                        <tr class="row-items" id="cart-item-@lstCart[i].ProductId">
                             <td class="columnn-cart">
-                                <img src="https://cdn.kkfashion.vn/18398-large_default/dam-xoe-hoa-cong-so-nhan-eo-cao-kk119-24.jpg?w=480" alt="Product">
+                                <img src="@Url.Content($"~/UpLoad/Product/{lstCart[i].ProductDetails.image}")" alt="Product Image">
                             </td>
                             <td class="columnn-cart">
                                 @lstCart[i].Products.nameProduct
@@ -120,19 +128,30 @@
                                 @Html.FormatValue(lstCart[i].Products.price, "{0:0,###}")
                             </td>
                             <td class="columnn-cart">
-                                <input type="number" min="0" value="@lstCart[i].Quantity">
+                                @if (@lstCart[i].Quantity <= 0)
+                                {
+                                    <input type="text" value="@lstCart[i].Quantity">
+                                    <a href="/Cart/AddToCart/?id=@lstCart[i].ProductId" class="inc qtybtn">+</a>
+                                }
+                                else
+                                {
+                                    <a href="/Cart/UpDateCart/?id=@lstCart[i].ProductId" class="dec qtybtn">-</a>
+                                    <input type="text" value="@lstCart[i].Quantity">
+                                    <a href="/Cart/AddToCart/?id=@lstCart[i].ProductId" class="inc qtybtn">+</a>
+                                }
+
                             </td>
                             <td class="columnn-cart">
                                 @Html.FormatValue(lstCart[i].Amount, "{0:0,###}")
                             </td>
                             <td class="columnn-cart">
-                                @Html.FormatValue(lstCart[i].Amount, "{0:0,###}")
+                                <a href="/Cart/RemoveFromCart/@lstCart[i].ProductId">X</a>
                             </td>
                         </tr>
-                        }
                     }
                 }
-         </tbody>
+            }
+        </tbody>
     </table>
     <hr>
     <section class="payment">
@@ -147,10 +166,15 @@
         <div class="payment-shoppingcart right-payment">
             <h3>Thanh toán</h3>
             <div class="pay">
-                <label for="">Số lượng sản phẩm: </label> <br>
-                <label for="">Tổng thanh toán: </label> <br>
+                <label for="">Số lượng sản phẩm: @totalQuantity</label><br>
+                <label for="">Tổng thanh toán: @Html.FormatValue(totalAmount, "{0:0,###}")</label><br>
                 <button type="submit">Thanh toán ngay <i class="fas fa-arrow-right"></i></button>
             </div>
         </div>
     </section>
+    <script>
+        function updateQuantity(index, value) {
+            lstCart[index].Quantity = parseInt(value);
+        }
+    </script>
 </main>

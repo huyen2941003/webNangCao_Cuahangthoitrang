@@ -57,7 +57,7 @@
 
                                 @if (!string.IsNullOrEmpty(username))
                                 {
-                                    <li><a href="">Thông tin cá nhân</a></li>
+                                    <li><a href="@Url.Action("Index", "Account")">Thông tin cá nhân</a></li>
                                     <li><a href="@Url.Action("Logout", "Login")">Đăng xuất</a></li>
                                 }
                                 else

@@ -41,6 +41,7 @@ namespace Baocao_chuyende.Controllers
                 var objproduct = db.Products.FirstOrDefault(x => x.id == id);
                 if (objproduct != null)
                 {
+                    var objProductDetail = db.ProductDetails.FirstOrDefault(pd => pd.idProduct == id);
                     List<Models.CartModel> lstcard = null;
                     if (Session["Cart"] != null)
                     {
@@ -63,6 +64,7 @@ namespace Baocao_chuyende.Controllers
                         {
                             ProductId = (int)id,
                             Products = objproduct,
+                            ProductDetails = objProductDetail,
                             Quantity = 1,
                             Amount = (double)objproduct.price,
                         };
@@ -73,5 +75,53 @@ namespace Baocao_chuyende.Controllers
             }
             return RedirectToAction("Cart");
         }
+        public ActionResult UpDateCart(int id)
+        {
+            var objProduct = db.Products.FirstOrDefault(x => x.id == id);
+
+            if (objProduct != null)
+            {
+                List<Models.CartModel> lstCart = Session["Cart"] as List<Models.CartModel> ?? new List<Models.CartModel>();
+                var existingItem = lstCart.FirstOrDefault(item => item.ProductId == id);
+                if (existingItem != null)
+                {
+                    existingItem.Quantity -= 1;
+                    existingItem.Amount = (double)existingItem.Products.price * existingItem.Quantity;
+                }
+                else
+                {
+                    Models.CartModel newCart = new Models.CartModel
+                    {
+                        ProductId = (int)id,
+                        Products = objProduct,
+                        Quantity = 1,
+                        Amount = (double)objProduct.price,
+                    };
+                    lstCart.Add(newCart);
+                }
+
+                Session["Cart"] = lstCart;
+            }
+
+            return RedirectToAction("Cart");
+        }
+
+        public ActionResult RemoveFromCart(int id)
+        {
+            var objProduct = db.Products.FirstOrDefault(x => x.id == id);
+            if (objProduct != null)
+            {
+                List<Models.CartModel> lstCart = Session["Cart"] as List<Models.CartModel> ?? new List<Models.CartModel>();
+                var itemToRemove = lstCart.FirstOrDefault(item => item.ProductId == id);
+                if (itemToRemove != null)
+                {
+                    lstCart.Remove(itemToRemove);
+                    Session["Cart"] = lstCart;
+                }
+            }
+
+            return RedirectToAction("Cart");
+        }
+
     }
 }

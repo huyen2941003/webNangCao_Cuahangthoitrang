@@ -1,0 +1,119 @@
+﻿@model IEnumerable<Baocao_chuyende.Models.Account>
+@{
+    ViewBag.Title = "Trang cá nhân";
+    Layout = "~/Views/Shared/LayoutHF.cshtml";
+}
+<style>
+    .container {
+        display: flex;
+        flex-direction: row-reverse;
+        margin: 50px 0 50px 300px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    h1 {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .btn {
+        background-color: #000000;
+        color: #ffffff;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background-color: #000000;
+        color: #ffffff;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .form-group.float-right {
+        float: right;
+    }
+
+    .form-group img {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+    }
+    #img {
+        border: none;
+    }
+
+    .gender {
+        margin-left: 10px;
+    }
+
+    .header-body {
+        margin: 30px 0px 10px 20px;
+    }
+
+    .header-body p {
+        margin-top: 5px;
+    }
+
+    #image {
+        border: none;
+        margin: 10px 0 0 30px;
+    }
+</style>
+<main>
+    @foreach (var item in ViewBag.AccountData)
+    {
+        <div class="header-body">
+            <h1>Hồ sơ của tôi</h1>
+            <p>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+        </div>
+        <hr>
+        <div class="container">
+            <div class="form-group">
+                <img src="./assest/pr1_1.jpg" alt="">
+                <input type="file" class="form-control" id="image" name="image" value="Chọn ảnh">
+            </div>
+            <form action="submit.php" method="post">
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập: </label>
+                    <input type="text" class="form-control" id="username" name="username" value="@item.username">
+                </div>
+                <div class="form-group">
+                    <label for="name">Tên: </label>
+                    <input type="text" class="form-control" id="name" name="name" value="@item.fullname">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email: </label>
+                    <input type="email" class="form-control" id="email" name="email" value="@item.email">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số điện thoại: </label>
+                    <input type="text" class="form-control" id="phone" name="phone" value="@item.phone">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Địa chỉ: </label>
+                    <input type="text" class="form-control" id="address" name="address" value="@item.address">
+                </div>
+                <div class="form-group">
+                </div>
+            </form>
+        </div>
+    }
+</main>

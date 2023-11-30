@@ -11,7 +11,8 @@ namespace Baocao_chuyende.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Web.Mvc;
+
     public partial class Product
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -25,6 +26,7 @@ namespace Baocao_chuyende.Models
         public Nullable<int> idCategory { get; set; }
         public Nullable<int> idBrands { get; set; }
         public Nullable<int> idType { get; set; }
+        [AllowHtml]
         public string description { get; set; }
         public Nullable<double> cost { get; set; }
         public Nullable<double> price { get; set; }

@@ -150,6 +150,7 @@
     <Compile Include="Areas\Admin\Controllers\SizeColorController.cs" />
     <Compile Include="Areas\Admin\Controllers\TypeProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\VideoController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\ContactUsController.cs" />
@@ -1556,6 +1557,7 @@
     <Content Include="support\ckeditor\samples\sample_posteddata.php" />
     <Content Include="support\ckeditor\skins\moono\readme.md" />
     <Content Include="support\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
+    <Content Include="Views\Account\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
